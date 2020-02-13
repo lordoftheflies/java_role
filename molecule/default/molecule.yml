@@ -9,7 +9,7 @@ lint:
     config-file: molecule/default/yaml-lint.yml
 platforms:
   - name: instance
-    image: "lordoftheflies/docker-${MOLECULE_DISTRO:-centos7}-ansible:latest"
+    image: "ansible/${MOLECULE_DISTRO:-centos7}-ansible:latest"
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
@@ -20,7 +20,7 @@ provisioner:
   lint:
     name: ansible-lint
   playbooks:
-    converge: ${MOLECULE_PLAYBOOK:-playbook.yml}
+    converge: converge.yml
 scenario:
   name: default
 verifier:

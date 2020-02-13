@@ -1,0 +1,6 @@
+---
+- name: Create play
+  hosts: all
+  become: true
+  roles:
+    - role: role_java
