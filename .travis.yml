@@ -1,0 +1,28 @@
+---
+language: python
+python: "3.7"
+services: docker
+
+env:
+  global:
+    - ROLE_NAME: role_java
+  matrix:
+    - MOLECULE_DISTRO: ubuntu1804
+    - MOLECULE_DISTRO: ubuntu1904
+
+install:
+  # Install test dependencies.
+  - pip install molecule docker
+
+before_script:
+  # Use actual Ansible Galaxy role name for the project directory.
+  - cd ../
+  - mv $ROLE_NAME lordoftheflies.$ROLE_NAME
+  - cd lordoftheflies.$ROLE_NAME
+
+script:
+  # Run tests.
+  - molecule test
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/

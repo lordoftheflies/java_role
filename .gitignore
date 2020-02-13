@@ -1,0 +1,6 @@
+.idea/
+.vagrant/
+env/
+*.retry
+*/__pycache__
+*.pyc

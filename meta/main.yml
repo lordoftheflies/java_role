@@ -1,0 +1,24 @@
+---
+galaxy_info:
+  author: lordoftheflies
+  description: 'Java for Linux'
+  company: 'cherubits'
+  role_name: 'role_java'
+  version: '1.0.0'
+  license: license (Apache-2.0)
+  min_ansible_version: 2.9
+  issue_tracker_url: https://github.com/lordoftheflies/role_java/issues
+  platforms:
+    - name: Ubuntu
+      versions:
+        - xenial
+        - eon
+        - disco
+  galaxy_tags:
+    - development
+    - system
+    - web
+    - java
+    - jdk
+    - openjdk
+dependencies: []
