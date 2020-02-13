@@ -6,10 +6,17 @@ driver:
 lint:
   name: yamllint
   options:
-    config-file: molecule/default/yaml-lint.yml
+    config-file: .ansible-lint
 platforms:
-  - name: instance
-    image: "ansible/${MOLECULE_DISTRO:-centos7}-ansible:latest"
+  - name: ubuntu1804
+    image: "williamyeh/ansible:ubuntu18.04"
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    pre_build_image: true
+  - name: centos7
+    image: "williamyeh/ansible:centos7"
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
@@ -20,7 +27,10 @@ provisioner:
   lint:
     name: ansible-lint
   playbooks:
-    converge: converge.yml
+    docker:
+      cleanup: cleanup.yml
+      create: create.yml
+      converge: converge.yml
 scenario:
   name: default
 verifier:

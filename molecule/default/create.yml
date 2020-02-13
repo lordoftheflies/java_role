@@ -1,6 +1,8 @@
 ---
-- name: Create play
+- name: "Create playbook"
   hosts: all
   become: true
-  roles:
-    - role: role_java
+  #  roles:
+  #    - role: role_java
+  tasks: []
+#    - name: "Install mo"
