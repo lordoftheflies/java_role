@@ -1,5 +1,7 @@
 # Ansible Role: Java
 
+## Status
+
 [![Build Status](https://travis-ci.org/lordoftheflies/role_java.svg?branch=master)](https://travis-ci.org/lordoftheflies/role_java)
 
 Installs Java for RedHat/CentOS and Debian/Ubuntu linux servers.
@@ -62,6 +64,3 @@ For Ubuntu < 16.04:
 
 * [lordoftheflies](mailto:laszlo.hegedus@cherubits.hu)
 
-## License
-
-MIT / BSD
