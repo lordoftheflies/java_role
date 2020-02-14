@@ -15,10 +15,12 @@ jobs:
       run: |
         echo Add other actions to build,
         echo test, and deploy your project.
+    - name: Publish Ansible role to Galaxy
+      uses: robertdebock/galaxy-action@1.0.3
+      with:
+        # Your personal Galaxy key found under Galaxy -> Your Profile -> Preferences -> API Key
+        galaxy_api_key: 2760cbdaf927dbdc9082fa3de73305540349b397
+        
     - name: Deploy Ansible Galaxy Collection
       uses: artis3n/ansible_galaxy_collection@v1.0.10
-    - name: Ansible Molecule
-      uses: gofrolist/molecule-action@v1
-      with:
-        # Who to greet
-        who-to-greet: # default is World
+    
