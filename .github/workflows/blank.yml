@@ -20,7 +20,15 @@ jobs:
       with:
         # Your personal Galaxy key found under Galaxy -> Your Profile -> Preferences -> API Key
         galaxy_api_key: 2760cbdaf927dbdc9082fa3de73305540349b397
-        
-    - name: Deploy Ansible Galaxy Collection
-      uses: artis3n/ansible_galaxy_collection@v1.0.10
     
+    - name: Test Ansible roles with Molecule
+      uses: robertdebock/molecule-action@1.2.8
+      with:
+        # The Docker Hub namespace where the image is in.
+        namespace: lordoftheflies
+        # The image you want to run on.
+        image: java
+        # The tag of the container image to use.
+        tag: latest
+        # Options you can pass to [`tox`](https://tox.readthedocs.io/en/latest/), for example `--parallel all`.
+        options: # optional
