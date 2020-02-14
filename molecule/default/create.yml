@@ -3,6 +3,6 @@
   hosts: all
   become: true
   #  roles:
-  #    - role: role_java
+  #    - role: java_role
   tasks: []
 #    - name: "Install mo"

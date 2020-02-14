@@ -5,7 +5,7 @@ services: docker
 
 env:
   global:
-    - ROLE_NAME: role_java
+    - ROLE_NAME: java_role
   matrix:
     - MOLECULE_DISTRO: ubuntu1804
     - MOLECULE_DISTRO: ubuntu1904
