@@ -1,0 +1,34 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run a one-line script
+      run: echo Hello, world!
+    - name: Run a multi-line script
+      run: |
+        echo Add other actions to build,
+        echo test, and deploy your project.
+    - name: Publish Ansible role to Galaxy
+      uses: robertdebock/galaxy-action@1.0.3
+      with:
+        # Your personal Galaxy key found under Galaxy -> Your Profile -> Preferences -> API Key
+        galaxy_api_key: 2760cbdaf927dbdc9082fa3de73305540349b397
+    
+    - name: Test Ansible roles with Molecule
+      uses: robertdebock/molecule-action@1.2.8
+      with:
+        # The Docker Hub namespace where the image is in.
+        namespace: lordoftheflies
+        # The image you want to run on.
+        image: java
+        # The tag of the container image to use.
+        tag: latest
+        # Options you can pass to [`tox`](https://tox.readthedocs.io/en/latest/), for example `--parallel all`.
+        options: # optional
