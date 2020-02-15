@@ -9,8 +9,8 @@ lint:
     config-file: .ansible-lint
 platforms:
   - name: ubuntu1804
-    #    image: "williamyeh/ansible:ubuntu18.04"
-    image: "quay.io/ansible/molecule"
+    image: "williamyeh/ansible:ubuntu18.04"
+    #    image: "quay.io/ansible/molecule"
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
@@ -27,8 +27,7 @@ provisioner:
   name: ansible
   lint:
     name: ansible-lint
-    options:
-      config-file: .ansible-lint
+
   playbooks:
     converge: converge.yml
 scenario:

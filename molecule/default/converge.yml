@@ -3,4 +3,4 @@
   hosts: all
   become: true
   roles:
-    - role: java_role
+    - java_role
