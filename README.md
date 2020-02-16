@@ -2,7 +2,7 @@
 
 ## Status
 
-[![Build Status](https://travis-ci.org/lordoftheflies/role_java.svg?branch=master)](https://travis-ci.org/lordoftheflies/role_java)
+[![Build Status](https://travis-ci.org/lordoftheflies/java_role.svg?branch=master)](https://travis-ci.org/lordoftheflies/java_role)
 
 Installs Java for RedHat/CentOS and Debian/Ubuntu linux servers.
 
