@@ -9,26 +9,27 @@ lint:
     config-file: .ansible-lint
 platforms:
   - name: ubuntu1804
-    image: "williamyeh/ansible:ubuntu18.04"
-    #    image: "quay.io/ansible/molecule"
+    # image: "williamyeh/ansible:ubuntu18.04"
+    image: "quay.io/ansible/molecule"
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: true
     pre_build_image: true
-  - name: centos7
-    image: "williamyeh/ansible:centos7"
-    command: ${MOLECULE_DOCKER_COMMAND:-""}
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: true
-    pre_build_image: true
+#  - name: centos7
+#    image: "williamyeh/ansible:centos7"
+#    command: ${MOLECULE_DOCKER_COMMAND:-""}
+#    volumes:
+#      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+#    privileged: true
+#    pre_build_image: true
 provisioner:
   name: ansible
   lint:
     name: ansible-lint
 
   playbooks:
+    cleanup: cleanup.yml
     converge: converge.yml
 scenario:
   name: default

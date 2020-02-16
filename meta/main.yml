@@ -11,8 +11,6 @@ galaxy_info:
   platforms:
     - name: Ubuntu
       versions:
-        - xenial
-        - eon
         - disco
   galaxy_tags:
     - development

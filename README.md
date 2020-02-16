@@ -6,7 +6,7 @@
 
 Installs Java for RedHat/CentOS and Debian/Ubuntu linux servers.
 
-## ss
+## Setup test environment
 
 ```shell script
 virtualenv --python=/usr/bin/python3.7 .env
