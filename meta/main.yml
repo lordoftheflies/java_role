@@ -1,13 +1,13 @@
 ---
 galaxy_info:
-  author: lordoftheflies
+  author: 'lordoftheflies'
+  role_name: 'java_role'
   description: 'Java for Linux'
-  company: 'cherubits'
-  role_name: 'role_java'
+  company: 'Cherubits'
   version: '2.0.1'
-  license: license (Apache-2.0)
-  min_ansible_version: 2.9
-  issue_tracker_url: https://github.com/lordoftheflies/role_java/issues
+  license: 'Apache-2.0'
+  min_ansible_version: '2.9'
+  issue_tracker_url: 'https://github.com/lordoftheflies/java_role/issues'
   platforms:
     - name: Ubuntu
       versions:
