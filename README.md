@@ -60,7 +60,8 @@ For Ubuntu < 16.04:
           java_packages:
             - openjdk-8-jdk
             
-## Author
+## Authors
 
-* [lordoftheflies](mailto:laszlo.hegedus@cherubits.hu)
+* [lordoftheflies](https://cherubits.hu/lordoftheflies) [:email:](mailto:laszlo.hegedus@cherubits.hu)
+* [geerlingguy](https://www.jeffgeerling.com/) [:email:](jeff@jeffgeerling.com)
 
