@@ -4,15 +4,13 @@ galaxy_info:
   role_name: 'java_role'
   description: 'Java for Linux'
   company: 'Cherubits'
-  version: '2.0.1'
+  version: '2.0.2'
   license: 'Apache-2.0'
   min_ansible_version: '2.9'
   issue_tracker_url: 'https://github.com/lordoftheflies/java_role/issues'
   platforms:
     - name: Ubuntu
       versions:
-        - xenial
-        - eon
         - disco
   galaxy_tags:
     - development

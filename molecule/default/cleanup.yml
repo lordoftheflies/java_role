@@ -1,5 +1,5 @@
 ---
-- name: "Converge JAVA-ROLE"
+- name: "Cleanup 'java_role'"
   become: true
   hosts: all
   roles:

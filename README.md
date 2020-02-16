@@ -2,11 +2,11 @@
 
 ## Status
 
-[![Build Status](https://travis-ci.org/lordoftheflies/role_java.svg?branch=master)](https://travis-ci.org/lordoftheflies/role_java)
+[![Build Status](https://travis-ci.org/lordoftheflies/java_role.svg?branch=master)](https://travis-ci.org/lordoftheflies/java_role)
 
 Installs Java for RedHat/CentOS and Debian/Ubuntu linux servers.
 
-## ss
+## Setup test environment
 
 ```shell script
 virtualenv --python=/usr/bin/python3.7 .env
@@ -68,7 +68,8 @@ For Ubuntu < 16.04:
           java_packages:
             - openjdk-8-jdk
             
-## Author
+## Authors
 
-* [lordoftheflies](mailto:laszlo.hegedus@cherubits.hu)
+* [lordoftheflies](https://cherubits.hu/lordoftheflies) [:email:](mailto:laszlo.hegedus@cherubits.hu)
+* [geerlingguy](https://www.jeffgeerling.com/) [:email:](jeff@jeffgeerling.com)
 
