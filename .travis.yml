@@ -4,8 +4,6 @@ python: "3.7"
 services: docker
 
 env:
-  global:
-    - ROLE_NAME: java_role
   matrix:
     - MOLECULE_DISTRO: ubuntu1804
     - MOLECULE_DISTRO: ubuntu1904
@@ -18,7 +16,7 @@ before_script:
   # Use actual Ansible Galaxy role name for the project directory.
   - cd ../
   - cp -r java_role lordoftheflies.java_role
-  - cd lordoftheflies.$ROLE_NAME
+  - cd lordoftheflies.java_role
 
 script:
   # Run tests.
