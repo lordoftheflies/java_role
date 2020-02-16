@@ -1,0 +1,6 @@
+[run]
+branch = True
+source = java_role
+
+[report]
+ignore_errors = True

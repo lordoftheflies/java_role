@@ -29,6 +29,7 @@ provisioner:
     name: ansible-lint
 
   playbooks:
+    prepare: prepare.yml
     cleanup: cleanup.yml
     converge: converge.yml
 scenario:

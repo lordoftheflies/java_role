@@ -1,6 +1,5 @@
 ---
 - name: "Converge JAVA-ROLE"
-  become: true
   hosts: all
   roles:
     - java_role

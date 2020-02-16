@@ -1,6 +1,5 @@
 ---
-- name: "Cleanup 'java_role'"
-  become: true
+- name: "Clean up play 'java_role' ..."
   hosts: all
-  roles:
-    - java_role
+  tasks:
+    - debug: msg="Play 'java_role' cleaned up."
