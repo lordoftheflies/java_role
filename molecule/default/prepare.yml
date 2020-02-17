@@ -1,5 +1,6 @@
 ---
 - name: "Prepare play 'java_role' ..."
   hosts: all
+  become: true
   tasks:
     - debug: msg="Play 'java_role' prepared."
