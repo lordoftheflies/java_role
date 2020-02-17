@@ -48,7 +48,7 @@ install:
   # Install tox in a virtualenv to ensure we have an up to date version.
   - virtualenv .env
   - .env/bin/pip install -U pip
-  - .env/bin/pip install tox
+  - .env/bin/pip install tox-travis
   # Install test dependencies.
   - pip install molecule molecule[lint] molecule[docker] docker docker-compose tox pytest
 
