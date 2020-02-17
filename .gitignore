@@ -22,7 +22,7 @@ venv/
 *.egg*
 *.egg-info
 dist
-build
+build/
 eggs
 parts
 bin
@@ -55,7 +55,7 @@ output/*.html
 output/*/index.html
 
 # Sphinx
-doc/build
+#docs/build
 
 # pbr generates these
 AUTHORS
