@@ -1,0 +1,28 @@
+#!/bin/bash
+
+DOCS=`find ../docs -type f -exec cat {} \; | wc -l`
+TESTS=`find ../tests -type f -exec cat {} \; | wc -l`
+DEFAULTS=`find defaults -type f -exec cat {} \; | wc -l`
+TASKS=`find tasks -type f -exec cat {} \; | wc -l`
+TEMPLATES=`find templates -type f -exec cat {} \; | wc -l`
+VARS=`find vars -type f -exec cat {} \; | wc -l`
+MOLECULE=`find molecule -type f -exec cat {} \; | wc -l`
+
+ETC=`find etc -type f -exec cat {} \; | wc -l`
+TOOLS=`find tools -type f -exec cat {} \; | wc -l`
+
+CORE=$(($DEFAULTS+$TASKS+$TEMPLATES+$VARS+$DOCS))
+SUPP=$(($MOLECULE))
+TOTAL=$(($CORE+$SUPP))
+
+
+echo "Docs     $DOCS"
+echo "Defaults     $DEFAULTS"
+echo "Tasks        $TASKS"
+echo "Templates    $TEMPLATES"
+echo "Variables    $VARS"
+echo "Molecules    $MOLECULE"
+echo ""
+echo "Core Code    $CORE"
+echo "Support Code $SUPP"
+echo "Total Code   $TOTAL"
