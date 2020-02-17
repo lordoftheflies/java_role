@@ -39,7 +39,7 @@ def add_args(parser):
                         help="don't make any changes; instead, try to predict "
                              "some of the changes that may occur")
     parser.add_argument("--config-path", default=default_config_path,
-                        help="path to Kayobe configuration. "
+                        help="path to JavaRole configuration. "
                              "(default=$%s or %s)" %
                              (CONFIG_PATH_ENV, DEFAULT_CONFIG_PATH))
     parser.add_argument("-e", "--extra-vars", metavar="EXTRA_VARS",
@@ -67,7 +67,7 @@ def add_args(parser):
 
 
 def _get_inventory_path(parsed_args):
-    """Return the path to the Kayobe inventory."""
+    """Return the path to the JavaRole inventory."""
     if parsed_args.inventory:
         return parsed_args.inventory
     else:
@@ -75,30 +75,30 @@ def _get_inventory_path(parsed_args):
 
 
 def _validate_args(parsed_args, playbooks):
-    """Validate Kayobe Ansible arguments."""
+    """Validate JavaRole Ansible arguments."""
     result = utils.is_readable_dir(parsed_args.config_path)
     if not result["result"]:
-        LOG.error("Kayobe configuration path %s is invalid: %s",
+        LOG.error("JavaRole configuration path %s is invalid: %s",
                   parsed_args.config_path, result["message"])
         sys.exit(1)
 
     inventory = _get_inventory_path(parsed_args)
     result = utils.is_readable_dir(inventory)
     if not result["result"]:
-        LOG.error("Kayobe inventory %s is invalid: %s",
+        LOG.error("JavaRole inventory %s is invalid: %s",
                   inventory, result["message"])
         sys.exit(1)
 
     for playbook in playbooks:
         result = utils.is_readable_file(playbook)
         if not result["result"]:
-            LOG.error("Kayobe playbook %s is invalid: %s",
+            LOG.error("JavaRole playbook %s is invalid: %s",
                       playbook, result["message"])
             sys.exit(1)
 
 
 def _get_vars_files(config_path):
-    """Return a list of Kayobe Ansible configuration variable files."""
+    """Return a list of JavaRole Ansible configuration variable files."""
     vars_files = []
     for vars_file in os.listdir(config_path):
         abs_path = os.path.join(config_path, vars_file)
@@ -149,7 +149,7 @@ def build_args(parsed_args, playbooks,
 def run_playbooks(parsed_args, playbooks,
                   extra_vars=None, limit=None, tags=None, quiet=False,
                   verbose_level=None, check=None):
-    """Run a Kayobe Ansible playbook."""
+    """Run a JavaRole Ansible playbook."""
     _validate_args(parsed_args, playbooks)
     cmd = build_args(parsed_args, playbooks,
                      extra_vars=extra_vars, limit=limit, tags=tags,
@@ -157,13 +157,13 @@ def run_playbooks(parsed_args, playbooks,
     try:
         utils.run_command(cmd, quiet=quiet)
     except subprocess.CalledProcessError as e:
-        LOG.error("Kayobe playbook(s) %s exited %d",
+        LOG.error("JavaRole playbook(s) %s exited %d",
                   ", ".join(playbooks), e.returncode)
         sys.exit(e.returncode)
 
 
 def run_playbook(parsed_args, playbook, *args, **kwargs):
-    """Run a Kayobe Ansible playbook."""
+    """Run a JavaRole Ansible playbook."""
     return run_playbooks(parsed_args, [playbook], *args, **kwargs)
 
 

@@ -34,7 +34,7 @@ class TestApp(cliff.app.App):
 class TestCase(unittest.TestCase):
 
     @mock.patch.object(utils, "galaxy_install", spec=True)
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_playbooks")
     def test_control_host_bootstrap(self, mock_run, mock_install):
         command = commands.ControlHostBootstrap(TestApp(), [])
@@ -52,7 +52,7 @@ class TestCase(unittest.TestCase):
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
     @mock.patch.object(utils, "galaxy_install", spec=True)
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_playbooks")
     def test_control_host_upgrade(self, mock_run, mock_install):
         command = commands.ControlHostUpgrade(TestApp(), [])
@@ -69,7 +69,7 @@ class TestCase(unittest.TestCase):
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_playbooks")
     def test_network_connectivity_check(self, mock_run):
         command = commands.NetworkConnectivityCheck(TestApp(), [])
@@ -82,9 +82,9 @@ class TestCase(unittest.TestCase):
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_config_dump")
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_playbooks")
     def test_seed_hypervisor_host_configure(self, mock_run, mock_dump):
         command = commands.SeedHypervisorHostConfigure(TestApp(), [])
@@ -122,7 +122,7 @@ class TestCase(unittest.TestCase):
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_playbooks")
     def test_seed_hypervisor_host_upgrade(self, mock_run):
         command = commands.SeedHypervisorHostUpgrade(TestApp(), [])
@@ -144,9 +144,9 @@ class TestCase(unittest.TestCase):
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_config_dump")
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_playbooks")
     @mock.patch.object(commands.KollaAnsibleMixin,
                        "run_lordoftheflies_ansible_seed")
@@ -214,9 +214,9 @@ class TestCase(unittest.TestCase):
         ]
         self.assertEqual(expected_calls, mock_lordoftheflies_run.call_args_list)
 
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_config_dump")
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_playbooks")
     @mock.patch.object(commands.KollaAnsibleMixin,
                        "run_lordoftheflies_ansible_seed")
@@ -247,9 +247,9 @@ class TestCase(unittest.TestCase):
         ]
         self.assertEqual(expected_calls, mock_lordoftheflies_run.call_args_list)
 
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_config_dump")
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_playbooks")
     @mock.patch.object(commands.KollaAnsibleMixin,
                        "run_lordoftheflies_ansible_seed")
@@ -281,9 +281,9 @@ class TestCase(unittest.TestCase):
         ]
         self.assertEqual(expected_calls, mock_lordoftheflies_run.call_args_list)
 
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_config_dump")
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_playbooks")
     @mock.patch.object(commands.KollaAnsibleMixin,
                        "run_lordoftheflies_ansible_seed")
@@ -316,7 +316,7 @@ class TestCase(unittest.TestCase):
         ]
         self.assertEqual(expected_calls, mock_lordoftheflies_run.call_args_list)
 
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_playbooks")
     def test_seed_host_upgrade(self, mock_run):
         command = commands.SeedHostUpgrade(TestApp(), [])
@@ -338,7 +338,7 @@ class TestCase(unittest.TestCase):
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_playbooks")
     def test_seed_container_image_build(self, mock_run):
         command = commands.SeedContainerImageBuild(TestApp(), [])
@@ -363,7 +363,7 @@ class TestCase(unittest.TestCase):
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_playbooks")
     def test_seed_container_image_build_with_regex(self, mock_run):
         command = commands.SeedContainerImageBuild(TestApp(), [])
@@ -387,7 +387,7 @@ class TestCase(unittest.TestCase):
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_playbooks")
     @mock.patch.object(commands.KollaAnsibleMixin,
                        "run_lordoftheflies_ansible_seed")
@@ -428,9 +428,9 @@ class TestCase(unittest.TestCase):
         ]
         self.assertEqual(expected_calls, mock_lordoftheflies_run.call_args_list)
 
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_config_dump")
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_playbooks")
     @mock.patch.object(commands.KollaAnsibleMixin,
                        "run_lordoftheflies_ansible_overcloud")
@@ -497,9 +497,9 @@ class TestCase(unittest.TestCase):
         ]
         self.assertEqual(expected_calls, mock_lordoftheflies_run.call_args_list)
 
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_config_dump")
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_playbooks")
     @mock.patch.object(commands.KollaAnsibleMixin,
                        "run_lordoftheflies_ansible_overcloud")
@@ -530,9 +530,9 @@ class TestCase(unittest.TestCase):
         ]
         self.assertEqual(expected_calls, mock_lordoftheflies_run.call_args_list)
 
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_config_dump")
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_playbooks")
     @mock.patch.object(commands.KollaAnsibleMixin,
                        "run_lordoftheflies_ansible_overcloud")
@@ -564,9 +564,9 @@ class TestCase(unittest.TestCase):
         ]
         self.assertEqual(expected_calls, mock_lordoftheflies_run.call_args_list)
 
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_config_dump")
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_playbooks")
     @mock.patch.object(commands.KollaAnsibleMixin,
                        "run_lordoftheflies_ansible_overcloud")
@@ -599,7 +599,7 @@ class TestCase(unittest.TestCase):
         ]
         self.assertEqual(expected_calls, mock_lordoftheflies_run.call_args_list)
 
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_playbooks")
     def test_overcloud_host_upgrade(self, mock_run):
         command = commands.OvercloudHostUpgrade(TestApp(), [])
@@ -623,7 +623,7 @@ class TestCase(unittest.TestCase):
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_playbooks")
     def test_overcloud_container_image_build(self, mock_run):
         command = commands.OvercloudContainerImageBuild(TestApp(), [])
@@ -648,7 +648,7 @@ class TestCase(unittest.TestCase):
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_playbooks")
     def test_overcloud_container_image_build_with_regex(self, mock_run):
         command = commands.OvercloudContainerImageBuild(TestApp(), [])
@@ -672,7 +672,7 @@ class TestCase(unittest.TestCase):
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_playbooks")
     def test_overcloud_post_configure(self, mock_run):
         command = commands.OvercloudPostConfigure(TestApp(), [])
@@ -696,7 +696,7 @@ class TestCase(unittest.TestCase):
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_playbooks")
     def test_baremetal_compute_inspect(self, mock_run):
         command = commands.BaremetalComputeInspect(TestApp(), [])
@@ -714,7 +714,7 @@ class TestCase(unittest.TestCase):
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_playbooks")
     def test_baremetal_compute_manage(self, mock_run):
         command = commands.BaremetalComputeManage(TestApp(), [])
@@ -732,7 +732,7 @@ class TestCase(unittest.TestCase):
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.KayobeAnsibleMixin,
+    @mock.patch.object(commands.JavaRoleAnsibleMixin,
                        "run_java_role_playbooks")
     def test_baremetal_compute_provide(self, mock_run):
         command = commands.BaremetalComputeProvide(TestApp(), [])

@@ -38,12 +38,12 @@ class VaultMixin(object):
         return parser
 
 
-class KayobeAnsibleMixin(object):
-    """Mixin class for commands running Kayobe Ansible playbooks."""
+class JavaRoleAnsibleMixin(object):
+    """Mixin class for commands running JavaRole Ansible playbooks."""
 
     def get_parser(self, prog_name):
-        parser = super(KayobeAnsibleMixin, self).get_parser(prog_name)
-        group = parser.add_argument_group("Kayobe Ansible")
+        parser = super(JavaRoleAnsibleMixin, self).get_parser(prog_name)
+        group = parser.add_argument_group("JavaRole Ansible")
         self.add_java_role_ansible_args(group)
         return parser
 
@@ -110,8 +110,8 @@ class KollaAnsibleMixin(object):
         return lordoftheflies_ansible.run_seed(*args, **kwargs)
 
 
-class ControlHostBootstrap(KayobeAnsibleMixin, VaultMixin, Command):
-    """Bootstrap the Kayobe control environment.
+class ControlHostBootstrap(JavaRoleAnsibleMixin, VaultMixin, Command):
+    """Bootstrap the JavaRole control environment.
 
     * Downloads and installs Ansible roles from Galaxy.
     * Generates an SSH key for the ansible control host, if one does not exist.
@@ -119,7 +119,7 @@ class ControlHostBootstrap(KayobeAnsibleMixin, VaultMixin, Command):
     """
 
     def take_action(self, parsed_args):
-        self.app.LOG.debug("Bootstrapping Kayobe control host")
+        self.app.LOG.debug("Bootstrapping JavaRole control host")
         utils.galaxy_install("requirements.yml", "ansible/roles")
         playbooks = _build_playbook_list("bootstrap")
         self.run_java_role_playbooks(parsed_args, playbooks)
@@ -127,8 +127,8 @@ class ControlHostBootstrap(KayobeAnsibleMixin, VaultMixin, Command):
         self.run_java_role_playbooks(parsed_args, playbooks, tags="install")
 
 
-class ControlHostUpgrade(KayobeAnsibleMixin, VaultMixin, Command):
-    """Upgrade the Kayobe control environment.
+class ControlHostUpgrade(JavaRoleAnsibleMixin, VaultMixin, Command):
+    """Upgrade the JavaRole control environment.
 
     * Downloads and installs updated Ansible roles from Galaxy.
     * Generates an SSH key for the ansible control host, if one does not exist.
@@ -136,7 +136,7 @@ class ControlHostUpgrade(KayobeAnsibleMixin, VaultMixin, Command):
     """
 
     def take_action(self, parsed_args):
-        self.app.LOG.debug("Upgrading Kayobe control host")
+        self.app.LOG.debug("Upgrading JavaRole control host")
         # Use force to upgrade roles.
         utils.galaxy_install("requirements.yml", "ansible/roles",
                              force=True)
@@ -146,8 +146,8 @@ class ControlHostUpgrade(KayobeAnsibleMixin, VaultMixin, Command):
         self.run_java_role_playbooks(parsed_args, playbooks, tags="install")
 
 
-class ConfigurationDump(KayobeAnsibleMixin, VaultMixin, Command):
-    """Dump Kayobe configuration.
+class ConfigurationDump(JavaRoleAnsibleMixin, VaultMixin, Command):
+    """Dump JavaRole configuration.
 
     Dumps java_role Ansible host variables to standard output. The output may be
     filtered by selecting one or more hosts, or a specific variable.
@@ -180,10 +180,10 @@ class ConfigurationDump(KayobeAnsibleMixin, VaultMixin, Command):
             sys.exit(1)
 
 
-class PlaybookRun(KayobeAnsibleMixin, VaultMixin, Command):
-    """Run a Kayobe Ansible playbook.
+class PlaybookRun(JavaRoleAnsibleMixin, VaultMixin, Command):
+    """Run a JavaRole Ansible playbook.
 
-    Allows a single Kayobe ansible playbook to be run. For advanced users only.
+    Allows a single JavaRole ansible playbook to be run. For advanced users only.
     """
 
     def add_java_role_ansible_args(self, group):
@@ -192,7 +192,7 @@ class PlaybookRun(KayobeAnsibleMixin, VaultMixin, Command):
                            help="name of the playbook(s) to run")
 
     def take_action(self, parsed_args):
-        self.app.LOG.debug("Running Kayobe playbook(s)")
+        self.app.LOG.debug("Running JavaRole playbook(s)")
         self.run_java_role_playbooks(parsed_args, parsed_args.playbook)
 
 
@@ -218,7 +218,7 @@ class KollaAnsibleRun(KollaAnsibleMixin, VaultMixin, Command):
                                         parsed_args.lordoftheflies_inventory_filename)
 
 
-class PhysicalNetworkConfigure(KayobeAnsibleMixin, VaultMixin, Command):
+class PhysicalNetworkConfigure(JavaRoleAnsibleMixin, VaultMixin, Command):
     """Configure a set of physical network devices."""
 
     def get_parser(self, prog_name):
@@ -257,7 +257,7 @@ class PhysicalNetworkConfigure(KayobeAnsibleMixin, VaultMixin, Command):
                                     extra_vars=extra_vars)
 
 
-class SeedHypervisorHostConfigure(KollaAnsibleMixin, KayobeAnsibleMixin,
+class SeedHypervisorHostConfigure(KollaAnsibleMixin, JavaRoleAnsibleMixin,
                                   VaultMixin, Command):
     """Configure the seed hypervisor node host OS and services.
 
@@ -292,7 +292,7 @@ class SeedHypervisorHostConfigure(KollaAnsibleMixin, KayobeAnsibleMixin,
                                      limit="seed-hypervisor")
 
 
-class SeedHypervisorHostUpgrade(KayobeAnsibleMixin, VaultMixin, Command):
+class SeedHypervisorHostUpgrade(JavaRoleAnsibleMixin, VaultMixin, Command):
     """Upgrade the seed hypervisor host services.
 
     Performs the changes necessary to make the host services suitable for the
@@ -307,7 +307,7 @@ class SeedHypervisorHostUpgrade(KayobeAnsibleMixin, VaultMixin, Command):
                                      limit="seed-hypervisor")
 
 
-class SeedVMProvision(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
+class SeedVMProvision(KollaAnsibleMixin, JavaRoleAnsibleMixin, VaultMixin,
                       Command):
     """Provision the seed VM.
 
@@ -326,7 +326,7 @@ class SeedVMProvision(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
                                     tags="config")
 
 
-class SeedVMDeprovision(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
+class SeedVMDeprovision(KollaAnsibleMixin, JavaRoleAnsibleMixin, VaultMixin,
                         Command):
     """Deprovision the seed VM.
 
@@ -339,7 +339,7 @@ class SeedVMDeprovision(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
                                     "ansible/seed-vm-deprovision.yml")
 
 
-class SeedHostConfigure(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
+class SeedHostConfigure(KollaAnsibleMixin, JavaRoleAnsibleMixin, VaultMixin,
                         Command):
     """Configure the seed node host OS and services.
 
@@ -427,7 +427,7 @@ class SeedHostConfigure(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
         self.run_java_role_playbooks(parsed_args, playbooks, limit="seed")
 
 
-class SeedHostUpgrade(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
+class SeedHostUpgrade(KollaAnsibleMixin, JavaRoleAnsibleMixin, VaultMixin,
                       Command):
     """Upgrade the seed host services.
 
@@ -442,7 +442,7 @@ class SeedHostUpgrade(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
         self.run_java_role_playbooks(parsed_args, playbooks, limit="seed")
 
 
-class SeedServiceDeploy(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
+class SeedServiceDeploy(KollaAnsibleMixin, JavaRoleAnsibleMixin, VaultMixin,
                         Command):
     """Deploy the seed services.
 
@@ -472,7 +472,7 @@ class SeedServiceDeploy(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
         self.run_java_role_playbooks(parsed_args, playbooks)
 
 
-class SeedContainerImageBuild(KayobeAnsibleMixin, VaultMixin, Command):
+class SeedContainerImageBuild(JavaRoleAnsibleMixin, VaultMixin, Command):
     """Build the seed container images.
 
     * Installs and configures lordoftheflies build environment on the seed.
@@ -507,7 +507,7 @@ class SeedContainerImageBuild(KayobeAnsibleMixin, VaultMixin, Command):
                                      extra_vars=extra_vars)
 
 
-class SeedDeploymentImageBuild(KayobeAnsibleMixin, VaultMixin, Command):
+class SeedDeploymentImageBuild(JavaRoleAnsibleMixin, VaultMixin, Command):
     """Build the seed deployment kernel and ramdisk images.
 
     Builds Ironic Python Agent (IPA) deployment images using Diskimage Builder
@@ -520,7 +520,7 @@ class SeedDeploymentImageBuild(KayobeAnsibleMixin, VaultMixin, Command):
         self.run_java_role_playbooks(parsed_args, playbooks)
 
 
-class OvercloudInventoryDiscover(KayobeAnsibleMixin, VaultMixin, Command):
+class OvercloudInventoryDiscover(JavaRoleAnsibleMixin, VaultMixin, Command):
     """Discover the overcloud inventory from the seed's Ironic service.
 
     * Query the ironic inventory on the seed, and use this to populate java_role's
@@ -548,7 +548,7 @@ class OvercloudInventoryDiscover(KayobeAnsibleMixin, VaultMixin, Command):
                                     tags="config")
 
 
-class OvercloudIntrospectionDataSave(KayobeAnsibleMixin, VaultMixin, Command):
+class OvercloudIntrospectionDataSave(JavaRoleAnsibleMixin, VaultMixin, Command):
     """Save hardware introspection data for the overcloud.
 
     Save hardware introspection data from the seed's ironic inspector service
@@ -582,7 +582,7 @@ class OvercloudIntrospectionDataSave(KayobeAnsibleMixin, VaultMixin, Command):
                                      extra_vars=extra_vars)
 
 
-class OvercloudBIOSRAIDConfigure(KayobeAnsibleMixin, VaultMixin, Command):
+class OvercloudBIOSRAIDConfigure(JavaRoleAnsibleMixin, VaultMixin, Command):
     """Configure BIOS and RAID for the overcloud hosts."""
 
     def take_action(self, parsed_args):
@@ -591,7 +591,7 @@ class OvercloudBIOSRAIDConfigure(KayobeAnsibleMixin, VaultMixin, Command):
         self.run_java_role_playbooks(parsed_args, playbooks)
 
 
-class OvercloudHardwareInspect(KayobeAnsibleMixin, VaultMixin, Command):
+class OvercloudHardwareInspect(JavaRoleAnsibleMixin, VaultMixin, Command):
     """Inspect the overcloud hardware using ironic inspector.
 
     Perform hardware inspection of existing ironic nodes in the seed's
@@ -604,7 +604,7 @@ class OvercloudHardwareInspect(KayobeAnsibleMixin, VaultMixin, Command):
         self.run_java_role_playbooks(parsed_args, playbooks)
 
 
-class OvercloudProvision(KayobeAnsibleMixin, VaultMixin, Command):
+class OvercloudProvision(JavaRoleAnsibleMixin, VaultMixin, Command):
     """Provision the overcloud.
 
     Provision the overcloud hosts using the seed host's bifrost service. This
@@ -618,7 +618,7 @@ class OvercloudProvision(KayobeAnsibleMixin, VaultMixin, Command):
         self.run_java_role_playbooks(parsed_args, playbooks)
 
 
-class OvercloudDeprovision(KayobeAnsibleMixin, VaultMixin, Command):
+class OvercloudDeprovision(JavaRoleAnsibleMixin, VaultMixin, Command):
     """Deprovision the overcloud.
 
     Deprovision the overcloud hosts using the seed host's bifrost service. This
@@ -632,7 +632,7 @@ class OvercloudDeprovision(KayobeAnsibleMixin, VaultMixin, Command):
         self.run_java_role_playbooks(parsed_args, playbooks)
 
 
-class OvercloudHostConfigure(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
+class OvercloudHostConfigure(KollaAnsibleMixin, JavaRoleAnsibleMixin, VaultMixin,
                              Command):
     """Configure the overcloud host OS and services.
 
@@ -683,7 +683,7 @@ class OvercloudHostConfigure(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
         python_interpreter = hostvars.get("ansible_python_interpreter")
         lordoftheflies_target_venv = hostvars.get("lordoftheflies_ansible_target_venv")
 
-        # Kayobe playbooks.
+        # JavaRole playbooks.
         playbooks = _build_playbook_list(
             "ip-allocation", "ssh-known-host", "java_role-ansible-user",
             "java_role-target-venv")
@@ -720,7 +720,7 @@ class OvercloudHostConfigure(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
         self.run_java_role_playbooks(parsed_args, playbooks, limit="overcloud")
 
 
-class OvercloudHostUpgrade(KayobeAnsibleMixin, VaultMixin, Command):
+class OvercloudHostUpgrade(JavaRoleAnsibleMixin, VaultMixin, Command):
     """Upgrade the overcloud host services.
 
     Performs the changes necessary to make the host services suitable for the
@@ -735,7 +735,7 @@ class OvercloudHostUpgrade(KayobeAnsibleMixin, VaultMixin, Command):
         self.run_java_role_playbooks(parsed_args, playbooks, limit="overcloud")
 
 
-class OvercloudServiceConfigurationGenerate(KayobeAnsibleMixin,
+class OvercloudServiceConfigurationGenerate(JavaRoleAnsibleMixin,
                                             KollaAnsibleMixin, VaultMixin,
                                             Command):
     """Generate the overcloud service configuration files.
@@ -781,7 +781,7 @@ class OvercloudServiceConfigurationGenerate(KayobeAnsibleMixin,
                                                   extra_vars=extra_vars)
 
 
-class OvercloudServiceConfigurationSave(KayobeAnsibleMixin, VaultMixin,
+class OvercloudServiceConfigurationSave(JavaRoleAnsibleMixin, VaultMixin,
                                         Command):
     """Gather and save the overcloud service configuration files.
 
@@ -815,7 +815,7 @@ class OvercloudServiceConfigurationSave(KayobeAnsibleMixin, VaultMixin,
                                      extra_vars=extra_vars)
 
 
-class OvercloudServiceDeploy(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
+class OvercloudServiceDeploy(KollaAnsibleMixin, JavaRoleAnsibleMixin, VaultMixin,
                              Command):
     """Deploy the overcloud services.
 
@@ -872,7 +872,7 @@ class OvercloudServiceDeploy(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
         self.run_java_role_playbooks(parsed_args, playbooks)
 
 
-class OvercloudServiceReconfigure(KollaAnsibleMixin, KayobeAnsibleMixin,
+class OvercloudServiceReconfigure(KollaAnsibleMixin, JavaRoleAnsibleMixin,
                                   VaultMixin, Command):
     """Reconfigure the overcloud services.
 
@@ -929,7 +929,7 @@ class OvercloudServiceReconfigure(KollaAnsibleMixin, KayobeAnsibleMixin,
         self.run_java_role_playbooks(parsed_args, playbooks)
 
 
-class OvercloudServiceUpgrade(KollaAnsibleMixin, KayobeAnsibleMixin,
+class OvercloudServiceUpgrade(KollaAnsibleMixin, JavaRoleAnsibleMixin,
                               VaultMixin, Command):
     """Upgrade the overcloud services.
 
@@ -972,7 +972,7 @@ class OvercloudServiceUpgrade(KollaAnsibleMixin, KayobeAnsibleMixin,
                                      extra_vars=extra_vars)
 
 
-class OvercloudServiceDestroy(KollaAnsibleMixin, KayobeAnsibleMixin,
+class OvercloudServiceDestroy(KollaAnsibleMixin, JavaRoleAnsibleMixin,
                               VaultMixin, Command):
     """Destroy the overcloud services.
 
@@ -1018,7 +1018,7 @@ class OvercloudServiceDestroy(KollaAnsibleMixin, KayobeAnsibleMixin,
                                      extra_vars=extra_vars)
 
 
-class OvercloudContainerImagePull(KayobeAnsibleMixin, KollaAnsibleMixin,
+class OvercloudContainerImagePull(JavaRoleAnsibleMixin, KollaAnsibleMixin,
                                   VaultMixin, Command):
     """Pull the overcloud container images from a registry."""
 
@@ -1039,7 +1039,7 @@ class OvercloudContainerImagePull(KayobeAnsibleMixin, KollaAnsibleMixin,
                                      extra_vars=extra_vars)
 
 
-class OvercloudContainerImageBuild(KayobeAnsibleMixin, VaultMixin, Command):
+class OvercloudContainerImageBuild(JavaRoleAnsibleMixin, VaultMixin, Command):
     """Build the overcloud container images."""
 
     def get_parser(self, prog_name):
@@ -1070,7 +1070,7 @@ class OvercloudContainerImageBuild(KayobeAnsibleMixin, VaultMixin, Command):
                                      extra_vars=extra_vars)
 
 
-class OvercloudDeploymentImageBuild(KayobeAnsibleMixin, VaultMixin, Command):
+class OvercloudDeploymentImageBuild(JavaRoleAnsibleMixin, VaultMixin, Command):
     """Build the overcloud deployment kernel and ramdisk images."""
 
     def take_action(self, parsed_args):
@@ -1079,7 +1079,7 @@ class OvercloudDeploymentImageBuild(KayobeAnsibleMixin, VaultMixin, Command):
         self.run_java_role_playbooks(parsed_args, playbooks)
 
 
-class OvercloudPostConfigure(KayobeAnsibleMixin, VaultMixin, Command):
+class OvercloudPostConfigure(JavaRoleAnsibleMixin, VaultMixin, Command):
     """Perform post-deployment configuration.
 
     * Register Ironic Python Agent (IPA) deployment images using Diskimage
@@ -1099,7 +1099,7 @@ class OvercloudPostConfigure(KayobeAnsibleMixin, VaultMixin, Command):
         self.run_java_role_playbooks(parsed_args, playbooks)
 
 
-class NetworkConnectivityCheck(KayobeAnsibleMixin, VaultMixin, Command):
+class NetworkConnectivityCheck(JavaRoleAnsibleMixin, VaultMixin, Command):
     """Check network connectivity between hosts in the control plane.
 
     Checks for access to an external IP address, an external hostname, any
@@ -1113,7 +1113,7 @@ class NetworkConnectivityCheck(KayobeAnsibleMixin, VaultMixin, Command):
         self.run_java_role_playbooks(parsed_args, playbooks)
 
 
-class BaremetalComputeInspect(KayobeAnsibleMixin, VaultMixin, Command):
+class BaremetalComputeInspect(JavaRoleAnsibleMixin, VaultMixin, Command):
     """Perform hardware inspection on baremetal compute nodes."""
 
     def take_action(self, parsed_args):
@@ -1123,7 +1123,7 @@ class BaremetalComputeInspect(KayobeAnsibleMixin, VaultMixin, Command):
         self.run_java_role_playbooks(parsed_args, playbooks)
 
 
-class BaremetalComputeManage(KayobeAnsibleMixin, VaultMixin, Command):
+class BaremetalComputeManage(JavaRoleAnsibleMixin, VaultMixin, Command):
     """Put baremetal compute nodes into the manageable provision state."""
 
     def take_action(self, parsed_args):
@@ -1132,7 +1132,7 @@ class BaremetalComputeManage(KayobeAnsibleMixin, VaultMixin, Command):
         self.run_java_role_playbooks(parsed_args, playbooks)
 
 
-class BaremetalComputeProvide(KayobeAnsibleMixin, VaultMixin, Command):
+class BaremetalComputeProvide(JavaRoleAnsibleMixin, VaultMixin, Command):
     """Put baremetal compute nodes into the available provision state."""
 
     def take_action(self, parsed_args):

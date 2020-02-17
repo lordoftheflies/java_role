@@ -76,7 +76,7 @@ def _get_inventory_path(parsed_args, inventory_filename):
 
 
 def _validate_args(parsed_args, inventory_filename):
-    """Validate Kayobe Ansible arguments."""
+    """Validate JavaRole Ansible arguments."""
     result = utils.is_readable_dir(parsed_args.lordoftheflies_config_path)
     if not result["result"]:
         LOG.error("Kolla configuration path %s is invalid: %s",
