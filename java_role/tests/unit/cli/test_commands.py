@@ -31,80 +31,72 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+import unittest
+
 import cliff.app
 import cliff.commandmanager
-from java_role.cli import commands
-from java_role import utils
 import mock
 import pytest
-import unittest
+
+from java_role import utils
+from java_role.cli import commands
 
 
 class TestApp(cliff.app.App):
-
     def __init__(self):
         super(TestApp, self).__init__(
-            description='Test app',
-            version='0.1',
-            command_manager=cliff.commandmanager.CommandManager('java_role.cli'))
+            description="Test app",
+            version="0.1",
+            command_manager=cliff.commandmanager.CommandManager("java_role.cli"),
+        )
 
 
 @pytest.mark.skip(reason="legacy code")
 class TestCase(unittest.TestCase):
-
     @mock.patch.object(utils, "galaxy_install", spec=True)
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_playbooks")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_playbooks")
     def test_control_host_bootstrap(self, mock_run, mock_install):
         command = commands.ControlHostBootstrap(TestApp(), [])
         parser = command.get_parser("test")
         parsed_args = parser.parse_args([])
         result = command.run(parsed_args)
         self.assertEqual(0, result)
-        mock_install.assert_called_once_with("requirements.yml",
-                                             "ansible/roles")
+        mock_install.assert_called_once_with("requirements.yml", "ansible/roles")
         expected_calls = [
             mock.call(mock.ANY, ["ansible/bootstrap.yml"]),
-            mock.call(mock.ANY, ["ansible/lordoftheflies-ansible.yml"],
-                      tags="install"),
+            mock.call(mock.ANY, ["ansible/lordoftheflies-ansible.yml"], tags="install"),
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
     @mock.patch.object(utils, "galaxy_install", spec=True)
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_playbooks")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_playbooks")
     def test_control_host_upgrade(self, mock_run, mock_install):
         command = commands.ControlHostUpgrade(TestApp(), [])
         parser = command.get_parser("test")
         parsed_args = parser.parse_args([])
         result = command.run(parsed_args)
         self.assertEqual(0, result)
-        mock_install.assert_called_once_with("requirements.yml",
-                                             "ansible/roles", force=True)
+        mock_install.assert_called_once_with(
+            "requirements.yml", "ansible/roles", force=True
+        )
         expected_calls = [
             mock.call(mock.ANY, ["ansible/bootstrap.yml"]),
-            mock.call(mock.ANY, ["ansible/lordoftheflies-ansible.yml"],
-                      tags="install"),
+            mock.call(mock.ANY, ["ansible/lordoftheflies-ansible.yml"], tags="install"),
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_playbooks")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_playbooks")
     def test_network_connectivity_check(self, mock_run):
         command = commands.NetworkConnectivityCheck(TestApp(), [])
         parser = command.get_parser("test")
         parsed_args = parser.parse_args([])
         result = command.run(parsed_args)
         self.assertEqual(0, result)
-        expected_calls = [
-            mock.call(mock.ANY, ["ansible/network-connectivity.yml"]),
-        ]
+        expected_calls = [mock.call(mock.ANY, ["ansible/network-connectivity.yml"])]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_config_dump")
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_playbooks")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_config_dump")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_playbooks")
     def test_seed_hypervisor_host_configure(self, mock_run, mock_dump):
         command = commands.SeedHypervisorHostConfigure(TestApp(), [])
         parser = command.get_parser("test")
@@ -115,8 +107,12 @@ class TestCase(unittest.TestCase):
         self.assertEqual(0, result)
 
         expected_calls = [
-            mock.call(mock.ANY, host="seed-hypervisor",
-                      var_name="java_role_ansible_user", tags="dump-config")
+            mock.call(
+                mock.ANY,
+                host="seed-hypervisor",
+                var_name="java_role_ansible_user",
+                tags="dump-config",
+            )
         ]
         self.assertEqual(expected_calls, mock_dump.call_args_list)
 
@@ -137,12 +133,11 @@ class TestCase(unittest.TestCase):
                     "ansible/seed-hypervisor-libvirt-host.yml",
                 ],
                 limit="seed-hypervisor",
-            ),
+            )
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_playbooks")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_playbooks")
     def test_seed_hypervisor_host_upgrade(self, mock_run):
         command = commands.SeedHypervisorHostUpgrade(TestApp(), [])
         parser = command.get_parser("test")
@@ -159,30 +154,23 @@ class TestCase(unittest.TestCase):
                     "ansible/lordoftheflies-target-venv.yml",
                 ],
                 limit="seed-hypervisor",
-            ),
+            )
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_config_dump")
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_playbooks")
-    @mock.patch.object(commands.KollaAnsibleMixin,
-                       "run_lordoftheflies_ansible_seed")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_config_dump")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_playbooks")
+    @mock.patch.object(commands.KollaAnsibleMixin, "run_lordoftheflies_ansible_seed")
     def test_seed_host_configure(self, mock_lordoftheflies_run, mock_run, mock_dump):
         command = commands.SeedHostConfigure(TestApp(), [])
         parser = command.get_parser("test")
         parsed_args = parser.parse_args([])
-        mock_dump.return_value = {
-            "seed": {"java_role_ansible_user": "stack"}
-        }
+        mock_dump.return_value = {"seed": {"java_role_ansible_user": "stack"}}
 
         result = command.run(parsed_args)
         self.assertEqual(0, result)
 
-        expected_calls = [
-            mock.call(mock.ANY, hosts="seed", tags="dump-config")
-        ]
+        expected_calls = [mock.call(mock.ANY, hosts="seed", tags="dump-config")]
         self.assertEqual(expected_calls, mock_dump.call_args_list)
 
         expected_calls = [
@@ -207,11 +195,7 @@ class TestCase(unittest.TestCase):
                 ],
                 limit="seed",
             ),
-            mock.call(
-                mock.ANY,
-                ["ansible/lordoftheflies-ansible.yml"],
-                tags="config",
-            ),
+            mock.call(mock.ANY, ["ansible/lordoftheflies-ansible.yml"], tags="config"),
             mock.call(
                 mock.ANY,
                 [
@@ -226,21 +210,17 @@ class TestCase(unittest.TestCase):
 
         expected_calls = [
             mock.call(
-                mock.ANY,
-                "bootstrap-servers",
-                extra_vars={"ansible_user": "stack"},
-            ),
+                mock.ANY, "bootstrap-servers", extra_vars={"ansible_user": "stack"}
+            )
         ]
         self.assertEqual(expected_calls, mock_lordoftheflies_run.call_args_list)
 
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_config_dump")
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_playbooks")
-    @mock.patch.object(commands.KollaAnsibleMixin,
-                       "run_lordoftheflies_ansible_seed")
-    def test_seed_host_configure_java_role_venv(self, mock_lordoftheflies_run, mock_run,
-                                                mock_dump):
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_config_dump")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_playbooks")
+    @mock.patch.object(commands.KollaAnsibleMixin, "run_lordoftheflies_ansible_seed")
+    def test_seed_host_configure_java_role_venv(
+        self, mock_lordoftheflies_run, mock_run, mock_dump
+    ):
         command = commands.SeedHostConfigure(TestApp(), [])
         parser = command.get_parser("test")
         parsed_args = parser.parse_args([])
@@ -262,18 +242,16 @@ class TestCase(unittest.TestCase):
                     "ansible_python_interpreter": "/java_role/venv/bin/python",
                     "ansible_user": "stack",
                 },
-            ),
+            )
         ]
         self.assertEqual(expected_calls, mock_lordoftheflies_run.call_args_list)
 
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_config_dump")
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_playbooks")
-    @mock.patch.object(commands.KollaAnsibleMixin,
-                       "run_lordoftheflies_ansible_seed")
-    def test_seed_host_configure_lordoftheflies_venv(self, mock_lordoftheflies_run, mock_run,
-                                                     mock_dump):
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_config_dump")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_playbooks")
+    @mock.patch.object(commands.KollaAnsibleMixin, "run_lordoftheflies_ansible_seed")
+    def test_seed_host_configure_lordoftheflies_venv(
+        self, mock_lordoftheflies_run, mock_run, mock_dump
+    ):
         command = commands.SeedHostConfigure(TestApp(), [])
         parser = command.get_parser("test")
         parsed_args = parser.parse_args([])
@@ -296,18 +274,16 @@ class TestCase(unittest.TestCase):
                     "ansible_user": "stack",
                     "virtualenv": "/lordoftheflies/venv/bin/python",
                 },
-            ),
+            )
         ]
         self.assertEqual(expected_calls, mock_lordoftheflies_run.call_args_list)
 
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_config_dump")
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_playbooks")
-    @mock.patch.object(commands.KollaAnsibleMixin,
-                       "run_lordoftheflies_ansible_seed")
-    def test_seed_host_configure_both_venvs(self, mock_lordoftheflies_run, mock_run,
-                                            mock_dump):
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_config_dump")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_playbooks")
+    @mock.patch.object(commands.KollaAnsibleMixin, "run_lordoftheflies_ansible_seed")
+    def test_seed_host_configure_both_venvs(
+        self, mock_lordoftheflies_run, mock_run, mock_dump
+    ):
         command = commands.SeedHostConfigure(TestApp(), [])
         parser = command.get_parser("test")
         parsed_args = parser.parse_args([])
@@ -331,12 +307,11 @@ class TestCase(unittest.TestCase):
                     "ansible_user": "stack",
                     "virtualenv": "/lordoftheflies/venv/bin/python",
                 },
-            ),
+            )
         ]
         self.assertEqual(expected_calls, mock_lordoftheflies_run.call_args_list)
 
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_playbooks")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_playbooks")
     def test_seed_host_upgrade(self, mock_run):
         command = commands.SeedHostUpgrade(TestApp(), [])
         parser = command.get_parser("test")
@@ -353,12 +328,11 @@ class TestCase(unittest.TestCase):
                     "ansible/lordoftheflies-target-venv.yml",
                 ],
                 limit="seed",
-            ),
+            )
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_playbooks")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_playbooks")
     def test_seed_container_image_build(self, mock_run):
         command = commands.SeedContainerImageBuild(TestApp(), [])
         parser = command.get_parser("test")
@@ -371,19 +345,17 @@ class TestCase(unittest.TestCase):
                 [
                     "ansible/container-image-builders-check.yml",
                     "ansible/lordoftheflies-build.yml",
-                    "ansible/container-image-build.yml"
+                    "ansible/container-image-build.yml",
                 ],
                 extra_vars={
-                    "container_image_sets": (
-                        "{{ seed_container_image_sets }}"),
+                    "container_image_sets": ("{{ seed_container_image_sets }}"),
                     "push_images": False,
-                }
-            ),
+                },
+            )
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_playbooks")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_playbooks")
     def test_seed_container_image_build_with_regex(self, mock_run):
         command = commands.SeedContainerImageBuild(TestApp(), [])
         parser = command.get_parser("test")
@@ -396,20 +368,18 @@ class TestCase(unittest.TestCase):
                 [
                     "ansible/container-image-builders-check.yml",
                     "ansible/lordoftheflies-build.yml",
-                    "ansible/container-image-build.yml"
+                    "ansible/container-image-build.yml",
                 ],
                 extra_vars={
                     "container_image_regexes": "'^regex1$ ^regex2$'",
                     "push_images": True,
-                }
-            ),
+                },
+            )
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_playbooks")
-    @mock.patch.object(commands.KollaAnsibleMixin,
-                       "run_lordoftheflies_ansible_seed")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_playbooks")
+    @mock.patch.object(commands.KollaAnsibleMixin, "run_lordoftheflies_ansible_seed")
     def test_service_deploy(self, mock_lordoftheflies_run, mock_run):
         command = commands.SeedServiceDeploy(TestApp(), [])
         parser = command.get_parser("test")
@@ -419,15 +389,8 @@ class TestCase(unittest.TestCase):
         self.assertEqual(0, result)
 
         expected_calls = [
-            mock.call(
-                mock.ANY,
-                ["ansible/lordoftheflies-ansible.yml"],
-                tags="config",
-            ),
-            mock.call(
-                mock.ANY,
-                ["ansible/lordoftheflies-bifrost.yml"],
-            ),
+            mock.call(mock.ANY, ["ansible/lordoftheflies-ansible.yml"], tags="config"),
+            mock.call(mock.ANY, ["ansible/lordoftheflies-bifrost.yml"]),
             mock.call(
                 mock.ANY,
                 [
@@ -439,35 +402,26 @@ class TestCase(unittest.TestCase):
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-        expected_calls = [
-            mock.call(
-                mock.ANY,
-                "deploy-bifrost",
-            ),
-        ]
+        expected_calls = [mock.call(mock.ANY, "deploy-bifrost")]
         self.assertEqual(expected_calls, mock_lordoftheflies_run.call_args_list)
 
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_config_dump")
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_playbooks")
-    @mock.patch.object(commands.KollaAnsibleMixin,
-                       "run_lordoftheflies_ansible_overcloud")
-    def test_overcloud_host_configure(self, mock_lordoftheflies_run, mock_run,
-                                      mock_dump):
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_config_dump")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_playbooks")
+    @mock.patch.object(
+        commands.KollaAnsibleMixin, "run_lordoftheflies_ansible_overcloud"
+    )
+    def test_overcloud_host_configure(
+        self, mock_lordoftheflies_run, mock_run, mock_dump
+    ):
         command = commands.OvercloudHostConfigure(TestApp(), [])
         parser = command.get_parser("test")
         parsed_args = parser.parse_args([])
-        mock_dump.return_value = {
-            "controller0": {"java_role_ansible_user": "stack"}
-        }
+        mock_dump.return_value = {"controller0": {"java_role_ansible_user": "stack"}}
 
         result = command.run(parsed_args)
         self.assertEqual(0, result)
 
-        expected_calls = [
-            mock.call(mock.ANY, hosts="overcloud", tags="dump-config")
-        ]
+        expected_calls = [mock.call(mock.ANY, hosts="overcloud", tags="dump-config")]
         self.assertEqual(expected_calls, mock_dump.call_args_list)
 
         expected_calls = [
@@ -490,11 +444,7 @@ class TestCase(unittest.TestCase):
                 ],
                 limit="overcloud",
             ),
-            mock.call(
-                mock.ANY,
-                ["ansible/lordoftheflies-ansible.yml"],
-                tags="config",
-            ),
+            mock.call(mock.ANY, ["ansible/lordoftheflies-ansible.yml"], tags="config"),
             mock.call(
                 mock.ANY,
                 [
@@ -509,21 +459,19 @@ class TestCase(unittest.TestCase):
 
         expected_calls = [
             mock.call(
-                mock.ANY,
-                "bootstrap-servers",
-                extra_vars={"ansible_user": "stack"},
-            ),
+                mock.ANY, "bootstrap-servers", extra_vars={"ansible_user": "stack"}
+            )
         ]
         self.assertEqual(expected_calls, mock_lordoftheflies_run.call_args_list)
 
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_config_dump")
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_playbooks")
-    @mock.patch.object(commands.KollaAnsibleMixin,
-                       "run_lordoftheflies_ansible_overcloud")
-    def test_overcloud_host_configure_java_role_venv(self, mock_lordoftheflies_run,
-                                                     mock_run, mock_dump):
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_config_dump")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_playbooks")
+    @mock.patch.object(
+        commands.KollaAnsibleMixin, "run_lordoftheflies_ansible_overcloud"
+    )
+    def test_overcloud_host_configure_java_role_venv(
+        self, mock_lordoftheflies_run, mock_run, mock_dump
+    ):
         command = commands.OvercloudHostConfigure(TestApp(), [])
         parser = command.get_parser("test")
         parsed_args = parser.parse_args([])
@@ -544,19 +492,19 @@ class TestCase(unittest.TestCase):
                 extra_vars={
                     "ansible_python_interpreter": "/java_role/venv/bin/python",
                     "ansible_user": "stack",
-                }
-            ),
+                },
+            )
         ]
         self.assertEqual(expected_calls, mock_lordoftheflies_run.call_args_list)
 
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_config_dump")
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_playbooks")
-    @mock.patch.object(commands.KollaAnsibleMixin,
-                       "run_lordoftheflies_ansible_overcloud")
-    def test_overcloud_host_configure_lordoftheflies_venv(self, mock_lordoftheflies_run,
-                                                          mock_run, mock_dump):
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_config_dump")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_playbooks")
+    @mock.patch.object(
+        commands.KollaAnsibleMixin, "run_lordoftheflies_ansible_overcloud"
+    )
+    def test_overcloud_host_configure_lordoftheflies_venv(
+        self, mock_lordoftheflies_run, mock_run, mock_dump
+    ):
         command = commands.OvercloudHostConfigure(TestApp(), [])
         parser = command.get_parser("test")
         parsed_args = parser.parse_args([])
@@ -578,19 +526,19 @@ class TestCase(unittest.TestCase):
                     "ansible_python_interpreter": "/usr/bin/python",
                     "ansible_user": "stack",
                     "virtualenv": "/lordoftheflies/venv/bin/python",
-                }
-            ),
+                },
+            )
         ]
         self.assertEqual(expected_calls, mock_lordoftheflies_run.call_args_list)
 
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_config_dump")
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_playbooks")
-    @mock.patch.object(commands.KollaAnsibleMixin,
-                       "run_lordoftheflies_ansible_overcloud")
-    def test_overcloud_host_configure_both_venvs(self, mock_lordoftheflies_run,
-                                                 mock_run, mock_dump):
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_config_dump")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_playbooks")
+    @mock.patch.object(
+        commands.KollaAnsibleMixin, "run_lordoftheflies_ansible_overcloud"
+    )
+    def test_overcloud_host_configure_both_venvs(
+        self, mock_lordoftheflies_run, mock_run, mock_dump
+    ):
         command = commands.OvercloudHostConfigure(TestApp(), [])
         parser = command.get_parser("test")
         parsed_args = parser.parse_args([])
@@ -613,13 +561,12 @@ class TestCase(unittest.TestCase):
                     "ansible_python_interpreter": "/java_role/venv/bin/python",
                     "ansible_user": "stack",
                     "virtualenv": "/lordoftheflies/venv/bin/python",
-                }
-            ),
+                },
+            )
         ]
         self.assertEqual(expected_calls, mock_lordoftheflies_run.call_args_list)
 
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_playbooks")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_playbooks")
     def test_overcloud_host_upgrade(self, mock_run):
         command = commands.OvercloudHostUpgrade(TestApp(), [])
         parser = command.get_parser("test")
@@ -638,12 +585,11 @@ class TestCase(unittest.TestCase):
                     "ansible/overcloud-etc-hosts-fixup.yml",
                 ],
                 limit="overcloud",
-            ),
+            )
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_playbooks")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_playbooks")
     def test_overcloud_container_image_build(self, mock_run):
         command = commands.OvercloudContainerImageBuild(TestApp(), [])
         parser = command.get_parser("test")
@@ -656,19 +602,17 @@ class TestCase(unittest.TestCase):
                 [
                     "ansible/container-image-builders-check.yml",
                     "ansible/lordoftheflies-build.yml",
-                    "ansible/container-image-build.yml"
+                    "ansible/container-image-build.yml",
                 ],
                 extra_vars={
-                    "container_image_sets": (
-                        "{{ overcloud_container_image_sets }}"),
+                    "container_image_sets": ("{{ overcloud_container_image_sets }}"),
                     "push_images": False,
-                }
-            ),
+                },
+            )
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_playbooks")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_playbooks")
     def test_overcloud_container_image_build_with_regex(self, mock_run):
         command = commands.OvercloudContainerImageBuild(TestApp(), [])
         parser = command.get_parser("test")
@@ -681,18 +625,17 @@ class TestCase(unittest.TestCase):
                 [
                     "ansible/container-image-builders-check.yml",
                     "ansible/lordoftheflies-build.yml",
-                    "ansible/container-image-build.yml"
+                    "ansible/container-image-build.yml",
                 ],
                 extra_vars={
                     "container_image_regexes": "'^regex1$ ^regex2$'",
                     "push_images": True,
-                }
-            ),
+                },
+            )
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_playbooks")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_playbooks")
     def test_overcloud_post_configure(self, mock_run):
         command = commands.OvercloudPostConfigure(TestApp(), [])
         parser = command.get_parser("test")
@@ -705,18 +648,17 @@ class TestCase(unittest.TestCase):
             mock.call(
                 mock.ANY,
                 [
-                    'ansible/overcloud-ipa-images.yml',
-                    'ansible/overcloud-introspection-rules.yml',
-                    'ansible/overcloud-introspection-rules-dell-lldp-workaround.yml',  # noqa
-                    'ansible/provision-net.yml',
-                    'ansible/overcloud-grafana-configure.yml'
+                    "ansible/overcloud-ipa-images.yml",
+                    "ansible/overcloud-introspection-rules.yml",
+                    "ansible/overcloud-introspection-rules-dell-lldp-workaround.yml",  # noqa
+                    "ansible/provision-net.yml",
+                    "ansible/overcloud-grafana-configure.yml",
                 ],
-            ),
+            )
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_playbooks")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_playbooks")
     def test_baremetal_compute_inspect(self, mock_run):
         command = commands.BaremetalComputeInspect(TestApp(), [])
         parser = command.get_parser("test")
@@ -724,35 +666,21 @@ class TestCase(unittest.TestCase):
         result = command.run(parsed_args)
         self.assertEqual(0, result)
         expected_calls = [
-            mock.call(
-                mock.ANY,
-                [
-                    "ansible/baremetal-compute-inspect.yml",
-                ],
-            ),
+            mock.call(mock.ANY, ["ansible/baremetal-compute-inspect.yml"])
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_playbooks")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_playbooks")
     def test_baremetal_compute_manage(self, mock_run):
         command = commands.BaremetalComputeManage(TestApp(), [])
         parser = command.get_parser("test")
         parsed_args = parser.parse_args([])
         result = command.run(parsed_args)
         self.assertEqual(0, result)
-        expected_calls = [
-            mock.call(
-                mock.ANY,
-                [
-                    "ansible/baremetal-compute-manage.yml",
-                ],
-            ),
-        ]
+        expected_calls = [mock.call(mock.ANY, ["ansible/baremetal-compute-manage.yml"])]
         self.assertEqual(expected_calls, mock_run.call_args_list)
 
-    @mock.patch.object(commands.JavaRoleAnsibleMixin,
-                       "run_java_role_playbooks")
+    @mock.patch.object(commands.JavaRoleAnsibleMixin, "run_java_role_playbooks")
     def test_baremetal_compute_provide(self, mock_run):
         command = commands.BaremetalComputeProvide(TestApp(), [])
         parser = command.get_parser("test")
@@ -760,11 +688,6 @@ class TestCase(unittest.TestCase):
         result = command.run(parsed_args)
         self.assertEqual(0, result)
         expected_calls = [
-            mock.call(
-                mock.ANY,
-                [
-                    "ansible/baremetal-compute-provide.yml",
-                ],
-            ),
+            mock.call(mock.ANY, ["ansible/baremetal-compute-provide.yml"])
         ]
         self.assertEqual(expected_calls, mock_run.call_args_list)

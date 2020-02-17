@@ -21,11 +21,11 @@
 
 
 import six
-from six.moves import configparser
 from six import StringIO
+from six.moves import configparser
 
 
-def test_file(host, path, owner='root', group='root'):
+def test_file(host, path, owner="root", group="root"):
     """Test an expected file.
     Validate that the file exists and has the correct ownership.
     """
@@ -37,7 +37,7 @@ def test_file(host, path, owner='root', group='root'):
     assert group == f.group
 
 
-def test_ini_file(host, path, owner='root', group='root', expected=None):
+def test_ini_file(host, path, owner="root", group="root", expected=None):
     """Test an expected INI file.
     Validate that the file exists, has the correct ownership, format and
     expected contents.
@@ -64,7 +64,7 @@ def test_ini_file(host, path, owner='root', group='root', expected=None):
             assert parser.get(exp_section_name, exp_key) == exp_value
 
 
-def test_directory(host, path, owner='root', group='root'):
+def test_directory(host, path, owner="root", group="root"):
     """Test an expected directory.
     Validate that the directory exists and has the correct ownership.
     """
