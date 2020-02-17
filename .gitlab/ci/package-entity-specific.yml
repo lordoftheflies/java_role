@@ -1,0 +1,36 @@
+# Project-specific jobs
+plan-stage:backend-frontend-check:
+  extends: .run
+  stage: package
+  only:
+    variables:
+      - $TRIAGE_PLAN_STAGE_BACKEND_FRONTEND_CHECK
+  variables:
+    TRIAGE_POLICY_FILE: policies/plan-stage/backend-frontend-check.yml
+
+plan-stage:end-of-release-grooming:
+  extends: .run
+  stage: package
+  only:
+    variables:
+      - $TRIAGE_PLAN_STAGE_END_OF_RELEASE_GROOMING
+  variables:
+    TRIAGE_POLICY_FILE: policies/plan-stage/end-of-release-grooming.yml
+
+plan-stage:group-label-check:
+  extends: .run
+  stage: package
+  only:
+    variables:
+      - $TRIAGE_PLAN_STAGE_GROUP_LABEL_CHECK
+  variables:
+    TRIAGE_POLICY_FILE: policies/plan-stage/group-label-check.yml
+
+plan-stage:security-issue-check:
+  extends: .run
+  stage: package
+  only:
+    variables:
+      - $TRIAGE_PLAN_STAGE_SECURITY_ISSUE_CHECK
+  variables:
+    TRIAGE_POLICY_FILE: policies/plan-stage/security-issue-check.yml

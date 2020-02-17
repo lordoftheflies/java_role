@@ -1,0 +1,23 @@
+# Common configurations that are extended by other jobs
+.run:
+  stage: run
+  before_script:
+    - . bin/setup.sh
+    - gem install gitlab-triage --no-doc
+    - '[ -z "$DRY_RUN" ] || EXTRA_FLAGS="--dry-run"'
+    - echo $EXTRA_FLAGS
+  script:
+    - gitlab-triage -r ./plugins/all  --host-url "https://$CI_SERVER_HOST" --debug -f $TRIAGE_POLICY_FILE --token $GITLAB_BOT_AUTOMATED_TRIAGE_TOKEN --source $TRIAGE_SOURCE_TYPE --source-id $TRIAGE_SOURCE_PATH $EXTRA_FLAGS
+  retry: 2
+
+# Job for running individual policy for one-off runs
+run:custom:
+  extends: .run
+  stage: single-run
+  when: manual
+  only:
+    variables:
+      - $TRIAGE_POLICY_FILE
+  except:
+    refs:
+      - schedules

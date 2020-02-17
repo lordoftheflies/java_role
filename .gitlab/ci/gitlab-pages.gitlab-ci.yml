@@ -1,0 +1,12 @@
+.gitlab_pages:
+  when: manual
+  environment:
+    name: pages
+    url: ${CI_PAGES_URL}
+  script:
+    - echo "Deploy to GitLab pages (${CI_PAGES_URL}) ..."
+    - cp $DISTRIBUTION_DIRECTORY/* public/
+  artifacts:
+    paths:
+      - public
+

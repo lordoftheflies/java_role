@@ -1,0 +1,35 @@
+community-merge-requests:
+  extends: .run
+  stage: package
+  only:
+    variables:
+      - $TRIAGE_COMMUNITY_MERGE_REQUESTS
+  variables:
+    TRIAGE_POLICY_FILE: policies/stages/package/community-merge-requests.yml
+
+missing-categories:
+  extends: .run
+  stage: package
+  only:
+    variables:
+      - $TRIAGE_MISSING_CATEGORIES
+  variables:
+    TRIAGE_POLICY_FILE: policies/stages/package/missing-categories.yml
+
+team-triage-package:
+  extends: .run
+  stage: package
+  only:
+    variables:
+      - $TRIAGE_TEAM_TRIAGE_PACKAGE
+  variables:
+    TRIAGE_POLICY_FILE: policies/stages/package/team-triage-package.yml
+
+unlabelled-issues:
+  extends: .run
+  stage: package
+  only:
+    variables:
+      - $TRIAGE_UNLABELLED_ISSUES
+  variables:
+    TRIAGE_POLICY_FILE: policies/stages/package/unlabelled-issues.yml

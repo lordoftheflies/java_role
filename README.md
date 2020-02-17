@@ -11,7 +11,7 @@ Installs Java for RedHat/CentOS and Debian/Ubuntu linux servers.
 ```shell script
 virtualenv --python=/usr/bin/python3.7 .env
 source .env/bin/activate
-pip install molecule molecule[lint] molecule[docker] docker
+pip install molecule molecule[lint] molecule[docker] docker docker-compose tox pytest
 ```
 
 ## Requirements

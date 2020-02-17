@@ -1,0 +1,31 @@
+.base-schedules-sync:
+  stage: schedules-sync
+  before_script:
+    - ruby -v
+    - gem install bundler --no-document
+    - bundle install -j $(nproc) --path vendor
+  script:
+    - bundle exec bin/manage_schedules --token $GITLAB_BOT_AUTOMATED_TRIAGE_TOKEN $EXTRA_ARGS
+
+dry-run:schedules-sync:
+  extends: .base-schedules-sync
+  variables:
+    EXTRA_ARGS: '--dry-run'
+  allow_failure: true
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master" && $GITLAB_BOT_AUTOMATED_TRIAGE_TOKEN'
+      changes:
+        - pipeline-schedules.yml
+      when: manual
+    - if: '$GITLAB_BOT_AUTOMATED_TRIAGE_TOKEN'
+      changes:
+        - pipeline-schedules.yml
+      when: on_success
+
+schedules-sync:
+  extends: .base-schedules-sync
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_PIPELINE_SOURCE != "schedule" && $GITLAB_BOT_AUTOMATED_TRIAGE_TOKEN'
+      # changes:
+      #   - pipeline-schedules.yml
+      when: on_success

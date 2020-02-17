@@ -1,16 +1,56 @@
 ---
 language: python
-python: "3.7"
 services: docker
+python: "3.7"
 
-# env:
-#  matrix:
-#    - MOLECULE_DISTRO: ubuntu1804
-#    - MOLECULE_DISTRO: ubuntu1904
+sudo: required
+
+# Install ansible
+addons:
+  apt:
+    packages:
+      - gcc
+      - g++
+      - libxml2-dev
+      - libxslt-dev
+      - libssl-dev
+      - libffi-dev
+      - build-essential
+      - python-dev
+      - libffi-dev
+      # - openssl-dev
+      - make
+      - python3-apt
+      - python3-venv
+      - python3-virtualenv
+      # - realpath
+
+
+# Create a build matrix for the different test jobs.
+env:
+  matrix:
+    # Run python style checks.
+    - TOX_ENV=pep8
+    # Build documentation.
+    - TOX_ENV=docs
+    # Run python2.7 unit tests.
+    - TOX_ENV=py37
+    # Run ansible syntax checks.
+    - TOX_ENV=ansible-syntax
+    # Run ansible tests.
+    - TOX_ENV=ansible
+    # Run molecule tests.
+    - TOX_ENV=molecule
+    # - MOLECULE_DISTRO: ubuntu1804
+    # - MOLECULE_DISTRO: ubuntu1904
 
 install:
+  # Install tox in a virtualenv to ensure we have an up to date version.
+  - virtualenv .env
+  - .env/bin/pip install -U pip
+  - .env/bin/pip install tox
   # Install test dependencies.
-  - pip install molecule molecule[lint] molecule[docker] docker
+  - pip install molecule molecule[lint] molecule[docker] docker docker-compose tox pytest
 
 before_script:
   # Use actual Ansible Galaxy role name for the project directory.
@@ -19,8 +59,8 @@ before_script:
   - cd lordoftheflies.java_role
 
 script:
-  # Run tests.
-  - molecule test
+  # Run the tox environment.
+  - .env/bin/tox -e ${TOX_ENV}
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

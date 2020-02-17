@@ -1,0 +1,17 @@
+close-old-triage-packages:
+  extends: .run
+  stage: close-reports
+  only:
+    variables:
+      - $TRIAGE_CLOSE_OLD_TRIAGE_PACKAGES
+  variables:
+    TRIAGE_POLICY_FILE: policies/stages/close-reports/close-old-triage-packages.yml
+
+close-reports-resources-moved-to-next-milestone:
+  extends: .run
+  stage: close-reports
+  only:
+    variables:
+      - $TRIAGE_CLOSE_REPORTS_RESOURCES_MOVED_TO_NEXT_MILESTONE
+  variables:
+    TRIAGE_POLICY_FILE: policies/stages/close-reports/close-reports-resources-moved-to-next-milestone.yml

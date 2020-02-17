@@ -1,0 +1,7 @@
+---
+# Ansible Role: java_role
+
+- hosts: localhost
+  become: true
+  roles:
+    - java_role

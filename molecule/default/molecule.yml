@@ -9,8 +9,8 @@ lint:
     config-file: .ansible-lint
 platforms:
   - name: ubuntu1804
-    # image: "williamyeh/ansible:ubuntu18.04"
-    image: "quay.io/ansible/molecule"
+    image: "williamyeh/ansible:ubuntu18.04"
+    # image: "quay.io/ansible/molecule"
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
@@ -29,9 +29,9 @@ provisioner:
     name: ansible-lint
 
   playbooks:
-    prepare: prepare.yml
-    cleanup: cleanup.yml
-    converge: converge.yml
+    prepare: ${MOLECULE_PLAYBOOK:-prepare.yml}
+    cleanup: ${MOLECULE_PLAYBOOK:-cleanup.yml}
+    converge: ${MOLECULE_PLAYBOOK:-converge.yml}
 scenario:
   name: default
 verifier:

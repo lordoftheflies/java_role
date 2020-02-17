@@ -1,0 +1,73 @@
+close-old-issues:
+  extends: .run
+  stage: hygiene
+  only:
+    variables:
+      - $TRIAGE_CLOSE_OLD_ISSUES
+  variables:
+    TRIAGE_POLICY_FILE: policies/stages/hygiene/close-old-issues.yml
+
+discover:
+  extends: .run
+  stage: hygiene
+  only:
+    variables:
+      - $TRIAGE_DISCOVER
+  variables:
+    TRIAGE_POLICY_FILE: policies/stages/hygiene/discover.yml
+
+label-accepting-merge-requests:
+  extends: .run
+  stage: hygiene
+  only:
+    variables:
+      - $TRIAGE_LABEL_ACCEPTING_MERGE_REQUESTS
+  variables:
+    TRIAGE_POLICY_FILE: policies/stages/hygiene/label-accepting-merge-requests.yml
+
+label-community-contributions:
+  extends: .run
+  stage: hygiene
+  only:
+    variables:
+      - $TRIAGE_LABEL_COMMUNITY_CONTRIBUTIONS
+  variables:
+    TRIAGE_POLICY_FILE: policies/stages/hygiene/label-community-contributions.yml
+
+label-missed-slo:
+  extends: .run
+  stage: hygiene
+  only:
+    variables:
+      - $TRIAGE_LABEL_MISSED_SLO
+  variables:
+    TRIAGE_POLICY_FILE: policies/stages/hygiene/label-missed-slo.yml
+
+label-reminders:
+  extends: .run
+  stage: hygiene
+  only:
+    variables:
+      - $TRIAGE_LABEL_REMINDERS
+  variables:
+    TRIAGE_POLICY_FILE: policies/stages/hygiene/label-reminders.yml
+
+move-milestone-forward:
+  extends: .run
+  stage: hygiene
+  only:
+    variables:
+      - $TRIAGE_MOVE_MILESTONE_FORWARD
+  variables:
+    TRIAGE_POLICY_FILE: policies/stages/hygiene/move-milestone-forward.yml
+
+stage-and-group-labels-hygiene:
+  extends: .run
+  stage: hygiene
+  only:
+    variables:
+      - $TRIAGE_STAGE_AND_GROUP_LABELS_HYGIENE
+  variables:
+    TRIAGE_POLICY_FILE: policies/stages/hygiene/stage-and-group-labels-hygiene.yml
+    TRIAGE_SOURCE_TYPE: groups
+    TRIAGE_SOURCE_PATH: 9970 # gitlab-org

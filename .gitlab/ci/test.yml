@@ -1,0 +1,20 @@
+# Yamllint of *.yml for policy files.
+# This uses rules from project root `.yamllint`.
+lint-policies:
+  stage: test
+  image: sdesbure/yamllint:latest
+  script:
+    - yamllint .gitlab-ci.yml policies/
+
+specs:
+  stage: test
+  before_script:
+    - ruby -v
+    - gem install bundler --no-document
+    - bundle install -j $(nproc) --path vendor
+  script:
+    - bundle exec rspec spec
+  # We don't run specs for scheduled automated triage pipelines.
+  except:
+    variables:
+      - $TRIAGE_SOURCE_PATH

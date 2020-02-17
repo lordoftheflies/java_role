@@ -1,0 +1,59 @@
+.node_variables_template:
+  DISTRIBUTION_DIRECTORY: dist
+  GIT_SNAPSHOT_UPSTREAM_URL: "git@$CI_SERVER_HOST:CI_PROJECT_PATH.git"
+
+.node_setup_template:
+  before_script:
+    - if [ -f ".npmrc" ]; then rm .npmrc; fi
+    - if [ -f "$HOME/.npmrc" ]; then rm $HOME/.npmrc; fi
+    - npm install npm-login-cli
+    - export PATH=$PATH:node_modules/.bin/
+    - npm-login-cli -u "$NPM_PRIVATE_USERNAME" -p "$NPM_PRIVATE_PASSWORD" -e "$NPM_PRIVATE_EMAIL" -s "$NPM_SCOPE" -r "$NPM_PRIVATE_DOWNSTREAM"
+  script:
+    - npm install semantic-release
+    - npm install npm-version
+    - npm install typescript
+    - npm install concurrently
+    - npm install tsc
+    - npm install
+  cache:
+    key: "$CI_COMMIT_REF_SLUG"
+    policy: pull-push
+    paths:
+      - node_modules/
+
+.node_release_template:
+  variables:
+    GIT_STRATEGY: clone
+  before_script:
+    - eval $(ssh-agent -s)
+    - ssh-add ~/.ssh/id_rsa
+    - git reset --hard
+    - git checkout -B "$CI_COMMIT_REF_NAME"
+    - if [ -f ".npmrc" ]; then rm .npmrc; fi
+    - if [ -f "$HOME/.npmrc" ]; then rm $HOME/.npmrc; fi
+    - npm-login-cli -u "$NPM_PRIVATE_USERNAME" -p "$NPM_PRIVATE_PASSWORD" -e "$NPM_PRIVATE_EMAIL" -s $NPM_SCOPE -r "$NPM_PRIVATE_UPSTREAM"
+  script:
+    - npm semantic-release
+    - npm publish
+  when: manual
+
+.node_snapshot_template:
+  variables:
+    GIT_STRATEGY: clone
+  before_script:
+    - eval $(ssh-agent -s)
+    - ssh-add ~/.ssh/id_rsa
+    - git reset --hard
+    - git checkout -B "$CI_COMMIT_REF_NAME"
+    - if [ -f ".npmrc" ]; then rm .npmrc; fi
+    - if [ -f "$HOME/.npmrc" ]; then rm $HOME/.npmrc; fi
+    - npm-login-cli -u "$NPM_PRIVATE_USERNAME" -p "$NPM_PRIVATE_PASSWORD" -e "$NPM_PRIVATE_EMAIL" -s $NPM_SCOPE -r "$NPM_PRIVATE_UPSTREAM"
+  script:
+    - npm version patch -m "[skip ci] Snapshot from $CI_COMMIT_REF_NAME, %s"
+    - npm publish
+  after_script:
+    - git config --local user.name "$GITLAB_USER_NAME"
+    - git config --local user.email "$GITLAB_USER_EMAIL"
+    - "git push $GIT_SNAPSHOT_UPSTREAM_URL HEAD:$CI_COMMIT_REF_NAME"
+    - "git push $GIT_SNAPSHOT_UPSTREAM_URL HEAD:$CI_COMMIT_REF_NAME --tags"

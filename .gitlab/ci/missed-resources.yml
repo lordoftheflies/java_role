@@ -1,0 +1,44 @@
+.label-missed-resources:
+  extends: .run
+  stage: hygiene
+  only:
+    variables:
+      - $TRIAGE_LABEL_MISSED_RESOURCES
+  variables:
+    TRIAGE_POLICY_FILE: policies/stages/hygiene/label-missed-resources.yml
+
+charts:missed-resources:
+  extends: .label-missed-resources
+  variables:
+    TRIAGE_SOURCE_TYPE: groups
+    TRIAGE_SOURCE_PATH: 5032027
+
+gitaly:missed-resources:
+  extends: .label-missed-resources
+  variables:
+    TRIAGE_SOURCE_TYPE: projects
+    TRIAGE_SOURCE_PATH: 2009901
+
+gitlab-qa:missed-resources:
+  extends: .label-missed-resources
+  variables:
+    TRIAGE_SOURCE_TYPE: projects
+    TRIAGE_SOURCE_PATH: 1441932
+
+gitlab-runner:missed-resources:
+  extends: .label-missed-resources
+  variables:
+    TRIAGE_SOURCE_TYPE: projects
+    TRIAGE_SOURCE_PATH: 250833
+
+gitlab:missed-resources:
+  extends: .label-missed-resources
+  variables:
+    TRIAGE_SOURCE_TYPE: projects
+    TRIAGE_SOURCE_PATH: 278964
+
+omnibus-gitlab:missed-resources:
+  extends: .label-missed-resources
+  variables:
+    TRIAGE_SOURCE_TYPE: projects
+    TRIAGE_SOURCE_PATH: 20699

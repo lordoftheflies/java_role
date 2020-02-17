@@ -1,0 +1,103 @@
+# We're running default labels in pre-hygiene to avoid writing non-default
+# labels with label inferences in hygiene stage from the group schedule.
+
+# Group-specific jobs
+charts:default-labels:
+  extends: .run
+  stage: pre-hygiene
+  only:
+    variables:
+      - $TRIAGE_CHARTS_DEFAULT_LABELS
+  variables:
+    TRIAGE_POLICY_FILE: policies/groups/gitlab-org/charts/default-labels.yml
+    TRIAGE_SOURCE_TYPE: groups
+    TRIAGE_SOURCE_PATH: 5032027
+
+gitter:default-labels:
+  extends: .run
+  stage: pre-hygiene
+  only:
+    variables:
+      - $TRIAGE_GITTER_DEFAULT_LABELS
+  variables:
+    TRIAGE_POLICY_FILE: policies/groups/gitlab-org/gitter/default-labels.yml
+    TRIAGE_SOURCE_TYPE: groups
+    TRIAGE_SOURCE_PATH: 1540914
+
+# Project-specific jobs
+cng:default-labels:
+  extends: .run
+  stage: pre-hygiene
+  only:
+    variables:
+      - $TRIAGE_CNG_DEFAULT_LABELS
+  variables:
+    TRIAGE_POLICY_FILE: policies/groups/gitlab-org/charts/default-labels.yml
+    TRIAGE_SOURCE_TYPE: projects
+    TRIAGE_SOURCE_PATH: 4359271
+
+customer:default-labels:
+  extends: .run
+  stage: pre-hygiene
+  only:
+    variables:
+      - $TRIAGE_CUSTOMER_AND_LICENSE_DEFAULT_LABELS
+  variables:
+    TRIAGE_POLICY_FILE: policies/projects/customer-and-license/default-labels.yml
+    TRIAGE_SOURCE_TYPE: projects
+    TRIAGE_SOURCE_PATH: 2670515
+
+license:default-labels:
+  extends: .run
+  stage: pre-hygiene
+  only:
+    variables:
+      - $TRIAGE_CUSTOMER_AND_LICENSE_DEFAULT_LABELS
+  variables:
+    TRIAGE_POLICY_FILE: policies/projects/customer-and-license/default-labels.yml
+    TRIAGE_SOURCE_TYPE: projects
+    TRIAGE_SOURCE_PATH: 6457868
+
+gitaly:default-labels:
+  extends: .run
+  stage: pre-hygiene
+  only:
+    variables:
+      - $TRIAGE_GITALY_DEFAULT_LABELS
+  variables:
+    TRIAGE_POLICY_FILE: policies/projects/gitaly/default-labels.yml
+    TRIAGE_SOURCE_TYPE: projects
+    TRIAGE_SOURCE_PATH: 2009901
+
+gitlab-runner:default-labels:
+  extends: .run
+  stage: pre-hygiene
+  only:
+    variables:
+      - $TRIAGE_GITLAB_RUNNER_DEFAULT_LABELS
+  variables:
+    TRIAGE_POLICY_FILE: policies/projects/gitlab-runner/default-labels.yml
+    TRIAGE_SOURCE_TYPE: projects
+    TRIAGE_SOURCE_PATH: 250833
+
+omnibus-gitlab:default-labels:
+  extends: .run
+  stage: pre-hygiene
+  only:
+    variables:
+      - $TRIAGE_OMNIBUS_GITLAB_DEFAULT_LABELS
+  variables:
+    TRIAGE_POLICY_FILE: policies/projects/omnibus-gitlab/default-labels.yml
+    TRIAGE_SOURCE_TYPE: projects
+    TRIAGE_SOURCE_PATH: 20699
+
+testcases:default-labels:
+  extends: .run
+  stage: pre-hygiene
+  only:
+    variables:
+      - $TRIAGE_TESTCASES_DEFAULT_LABELS
+  variables:
+    TRIAGE_POLICY_FILE: policies/projects/testcases/default-labels.yml
+    TRIAGE_SOURCE_TYPE: projects
+    TRIAGE_SOURCE_PATH: 11229385

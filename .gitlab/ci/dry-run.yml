@@ -1,0 +1,46 @@
+# You can pass the following variables into the dry-run:custom
+# manual job to trigger a dry-run for a policy:
+#
+# * $TRIAGE_SOURCE_PATH to the project or group we want to run against.
+#   (default gitlab-org/gitlab)
+# * $TRIAGE_SOURCE_TYPE to projects or groups (default projects)
+# * $TRIAGE_POLICY_FILE to which policies file we want to use.
+#   (default .triage-policies.yml)
+# * $GITLAB_TRIAGE_BRANCH to which gitlab-triage branch to use for git.
+#   (default master)
+#
+# This way we could dry-run with various customization without changing the code
+.base-dry-run:
+  stage: dry-run
+  before_script:
+    - . bin/setup.sh
+    - gem install gitlab-triage --no-doc
+  when: manual
+  except:
+    refs:
+      - schedules
+
+dry-run:custom:
+  extends: .base-dry-run
+  script:
+    - gitlab-triage -r ./plugins/all --host-url "https://$CI_SERVER_HOST" --dry-run --debug --token $GITLAB_BOT_AUTOMATED_TRIAGE_TOKEN --source $TRIAGE_SOURCE_TYPE --source-id $TRIAGE_SOURCE_PATH -f $TRIAGE_POLICY_FILE
+
+dry-run:custom:gitlab-triage-git:
+  extends: dry-run:custom
+  before_script:
+    - . bin/setup.sh
+    - |
+      echo "source 'https://rubygems.org'" > Gemfile
+    - |
+      echo "gem 'gitlab-triage', git: 'https://$CI_SERVER_HOST/cherubits/gitlab-triage.git', branch:
+      ENV['GITLAB_TRIAGE_BRANCH']" >> Gemfile
+    - gem install bundler --no-doc
+    - bundle install
+    - export RUBYOPT=-rbundler/setup
+
+dry-run:schedule:
+  extends: .base-dry-run
+  script:
+    - gem install bundler --no-doc
+    - bundle install
+    - bundle exec bin/manage_schedules --token $GITLAB_BOT_AUTOMATED_TRIAGE_TOKEN --dry-run-schedule $TRIAGE_SCHEDULE_NAME  --host-url https://$CI_SERVER_HOST

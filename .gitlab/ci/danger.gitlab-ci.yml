@@ -1,0 +1,9 @@
+
+.danger-review-template:
+  image: ruby:2.4
+  before_script:
+    - gem install danger-gitlab --version '~> 5.0'
+  script:
+    - danger
+  only:
+    - merge_requests

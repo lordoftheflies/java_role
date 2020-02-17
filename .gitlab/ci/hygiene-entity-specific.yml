@@ -1,0 +1,17 @@
+www-gitlab-com:website-label-community-contributions:
+  extends: .run
+  stage: hygiene
+  only:
+    variables:
+      - $TRIAGE_WEBSITE_LABEL_COMMUNITY_CONTRIBUTIONS
+  variables:
+    TRIAGE_POLICY_FILE: policies/projects/www-gitlab-com/website-label-community-contributions.yml
+
+gitlab-foss:migrate-issues-to-gitlab:
+  extends: .run
+  stage: hygiene
+  only:
+    variables:
+      - $TRIAGE_GITLAB_FOSS_MIGRATE_ISSUES_TO_GITLAB
+  variables:
+    TRIAGE_POLICY_FILE: policies/projects/gitlab-foss/move-gitlab-foss-issues-to-gitlab.yml
