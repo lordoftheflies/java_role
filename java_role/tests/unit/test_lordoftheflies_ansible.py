@@ -158,8 +158,11 @@ class TestCase(unittest.TestCase):
         parsed_args = parser.parse_args([])
         lordoftheflies_ansible.run(parsed_args, "command", "overcloud")
         expected_cmd = [
-            ".", "/path/to/cwd/venvs/lordoftheflies-ansible/bin/activate", "&&",
-            "lordoftheflies-ansible", "command",
+            ".",
+            "/path/to/cwd/venvs/lordoftheflies-ansible/bin/activate",
+            "&&",
+            "lordoftheflies-ansible",
+            "command",
             "--key", "/path/to/java_role-vault-password-helper",
             "--inventory", "/etc/lordoftheflies/inventory/overcloud",
         ]

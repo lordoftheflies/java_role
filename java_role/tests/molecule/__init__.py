@@ -21,8 +21,8 @@
 
 
 import six
-from six import StringIO
 from six.moves import configparser
+from six import StringIO
 
 
 def test_file(host, path, owner='root', group='root'):
@@ -43,6 +43,7 @@ def test_ini_file(host, path, owner='root', group='root', expected=None):
     expected contents.
     :param expected: a dict of dicts providing config that should be present.
     """
+
     test_file(host, path, owner, group)
 
     sio = StringIO(host.file(path).content_string)
@@ -67,6 +68,7 @@ def test_directory(host, path, owner='root', group='root'):
     """Test an expected directory.
     Validate that the directory exists and has the correct ownership.
     """
+
     d = host.file(path)
 
     assert d.exists
@@ -77,6 +79,7 @@ def test_directory(host, path, owner='root', group='root'):
 
 def test_path_absent(host, path):
     """Test a path expected to not exist."""
+
     p = host.file(path)
 
     assert not p.exists

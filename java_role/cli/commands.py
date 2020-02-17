@@ -31,15 +31,13 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import json
-import sys
-
 from cliff.command import Command
-
 from java_role import ansible
 from java_role import lordoftheflies_ansible
 from java_role import utils
 from java_role import vault
+import json
+import sys
 
 
 def _build_playbook_list(*playbooks):

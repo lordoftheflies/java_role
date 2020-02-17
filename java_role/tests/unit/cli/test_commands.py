@@ -31,15 +31,13 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import unittest
-
 import cliff.app
 import cliff.commandmanager
+from java_role.cli import commands
+from java_role import utils
 import mock
 import pytest
-
-from java_role import utils
-from java_role.cli import commands
+import unittest
 
 
 class TestApp(cliff.app.App):
