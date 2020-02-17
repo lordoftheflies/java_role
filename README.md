@@ -60,14 +60,14 @@ For Ubuntu < 16.04:
       tasks:
         - name: installing repo for Java 8 in Ubuntu
   	      apt_repository: repo='ppa:openjdk-r/ppa'
-    
+
     - hosts: server
       roles:
         - role: lordoftheflies.role_java
           when: "ansible_os_family == 'Debian'"
           java_packages:
             - openjdk-8-jdk
-            
+
 ## Authors
 
 * [lordoftheflies](https://cherubits.hu/lordoftheflies) [:email:](mailto:laszlo.hegedus@cherubits.hu)
@@ -95,7 +95,7 @@ poetry install
 Activate the virtual environment.
 
 ```shell script
-source .venv/bin/activate
+source .env/bin/activate
 ```
 
 Run the package as a module.

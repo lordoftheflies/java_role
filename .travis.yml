@@ -23,6 +23,7 @@ addons:
       - python3-apt
       - python3-venv
       - python3-virtualenv
+      - libjs-mathjax
       # - realpath
 
 
