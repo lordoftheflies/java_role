@@ -39,6 +39,7 @@ import tempfile
 import unittest
 
 import mock
+import pytest
 
 from java_role import ansible
 from java_role import utils
@@ -175,6 +176,7 @@ class TestCase(unittest.TestCase):
         ]
         mock_run.assert_called_once_with(expected_cmd, quiet=False)
 
+    @pytest.mark.skip(reason="legacy code")
     @mock.patch.dict(os.environ, {"JAVA_ROLE_VAULT_PASSWORD": "test-pass"})
     @mock.patch.object(utils, "run_command")
     @mock.patch.object(ansible, "_get_vars_files")

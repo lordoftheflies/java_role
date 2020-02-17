@@ -35,11 +35,12 @@ import os
 import unittest
 
 import mock
+import pytest
 
 from java_role import utils
 from java_role import vault
 
-
+@pytest.mark.skip(reason="legacy code")
 class TestCase(unittest.TestCase):
 
     def test_validate_args_ok(self):
@@ -70,18 +71,18 @@ class TestCase(unittest.TestCase):
                                          "/path/to/file"])
         self.assertRaises(SystemExit, vault.validate_args, parsed_args)
 
-    # @mock.patch.object(vault.getpass, 'getpass')
-    # def test__ask_vault_pass(self, mock_getpass):
-    #     mock_getpass.return_value = 'test-pass'
-    #
-    #     # Call twice to verify that the user is only prompted once.
-    #     result = vault._ask_vault_pass()
-    #     self.assertEqual('test-pass', result)
-    #     mock_getpass.assert_called_once_with("Vault password: ")
-    #
-    #     result = vault._ask_vault_pass()
-    #     self.assertEqual('test-pass', result)
-    #     mock_getpass.assert_called_once_with("Vault password: ")
+    @mock.patch.object(vault.getpass, 'getpass')
+    def test__ask_vault_pass(self, mock_getpass):
+        mock_getpass.return_value = 'test-pass'
+
+        # Call twice to verify that the user is only prompted once.
+        result = vault._ask_vault_pass()
+        self.assertEqual('test-pass', result)
+        mock_getpass.assert_called_once_with("Vault password: ")
+
+        result = vault._ask_vault_pass()
+        self.assertEqual('test-pass', result)
+        mock_getpass.assert_called_once_with("Vault password: ")
 
     @mock.patch.object(utils, 'read_file')
     def test__read_vault_password_file(self, mock_read):

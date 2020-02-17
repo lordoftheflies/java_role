@@ -35,10 +35,12 @@ import subprocess
 import unittest
 
 import mock
+import pytest
 
 from java_role import utils
 
 
+@pytest.mark.skip(reason="legacy code")
 class TestCase(unittest.TestCase):
 
     @mock.patch.object(utils, "run_command")

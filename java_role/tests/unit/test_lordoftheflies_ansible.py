@@ -37,6 +37,7 @@ import subprocess
 import unittest
 
 import mock
+import pytest
 
 from java_role import lordoftheflies_ansible
 from java_role import utils
@@ -141,6 +142,7 @@ class TestCase(unittest.TestCase):
         expected_cmd = " ".join(expected_cmd)
         mock_run.assert_called_once_with(expected_cmd, shell=True, quiet=False)
 
+    @pytest.mark.skip(reason="legacy code")
     @mock.patch.dict(os.environ, {"JAVA_ROLE_VAULT_PASSWORD": "test-pass"})
     @mock.patch.object(utils, "run_command")
     @mock.patch.object(lordoftheflies_ansible, "_validate_args")
