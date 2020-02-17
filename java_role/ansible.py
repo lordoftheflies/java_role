@@ -23,7 +23,6 @@ import tempfile
 from java_role import utils
 from java_role import vault
 
-
 DEFAULT_CONFIG_PATH = "/etc/java_role"
 
 CONFIG_PATH_ENV = "JAVA_ROLE_CONFIG_PATH"

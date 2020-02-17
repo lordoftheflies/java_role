@@ -13,8 +13,8 @@
 # under the License.
 
 from __future__ import print_function
-import os
 
+import os
 
 VAULT_PASSWORD_ENV = "JAVA_ROLE_VAULT_PASSWORD"
 

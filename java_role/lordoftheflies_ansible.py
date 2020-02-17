@@ -20,7 +20,6 @@ import sys
 
 from java_role import utils
 
-
 DEFAULT_CONFIG_PATH = "/etc/lordoftheflies"
 
 CONFIG_PATH_ENV = "LORDOFTHEFLIES_CONFIG_PATH"

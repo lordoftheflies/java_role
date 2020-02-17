@@ -215,7 +215,7 @@ class KollaAnsibleRun(KollaAnsibleMixin, VaultMixin, Command):
     def take_action(self, parsed_args):
         self.app.LOG.debug("Running Kolla Ansible command")
         self.run_lordoftheflies_ansible(parsed_args, parsed_args.command,
-                               parsed_args.lordoftheflies_inventory_filename)
+                                        parsed_args.lordoftheflies_inventory_filename)
 
 
 class PhysicalNetworkConfigure(KayobeAnsibleMixin, VaultMixin, Command):
@@ -253,8 +253,8 @@ class PhysicalNetworkConfigure(KayobeAnsibleMixin, VaultMixin, Command):
             extra_vars["physical_network_interface_description_limit"] = (
                 parsed_args.interface_description_limit)
         self.run_java_role_playbook(parsed_args, "ansible/physical-network.yml",
-                                 limit=parsed_args.group,
-                                 extra_vars=extra_vars)
+                                    limit=parsed_args.group,
+                                    extra_vars=extra_vars)
 
 
 class SeedHypervisorHostConfigure(KollaAnsibleMixin, KayobeAnsibleMixin,
@@ -289,7 +289,7 @@ class SeedHypervisorHostConfigure(KollaAnsibleMixin, KayobeAnsibleMixin,
             "java_role-target-venv", "users", "yum", "dev-tools", "network",
             "sysctl", "ntp", "seed-hypervisor-libvirt-host")
         self.run_java_role_playbooks(parsed_args, playbooks,
-                                  limit="seed-hypervisor")
+                                     limit="seed-hypervisor")
 
 
 class SeedHypervisorHostUpgrade(KayobeAnsibleMixin, VaultMixin, Command):
@@ -304,7 +304,7 @@ class SeedHypervisorHostUpgrade(KayobeAnsibleMixin, VaultMixin, Command):
         playbooks = _build_playbook_list(
             "java_role-target-venv", "lordoftheflies-target-venv")
         self.run_java_role_playbooks(parsed_args, playbooks,
-                                  limit="seed-hypervisor")
+                                     limit="seed-hypervisor")
 
 
 class SeedVMProvision(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
@@ -319,11 +319,11 @@ class SeedVMProvision(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
     def take_action(self, parsed_args):
         self.app.LOG.debug("Provisioning seed VM")
         self.run_java_role_playbook(parsed_args, "ansible/ip-allocation.yml",
-                                 limit="seed")
+                                    limit="seed")
         self.run_java_role_playbook(parsed_args, "ansible/seed-vm-provision.yml")
         # Now populate the Kolla Ansible inventory.
         self.run_java_role_playbook(parsed_args, "ansible/lordoftheflies-ansible.yml",
-                                 tags="config")
+                                    tags="config")
 
 
 class SeedVMDeprovision(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
@@ -336,7 +336,7 @@ class SeedVMDeprovision(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
     def take_action(self, parsed_args):
         self.app.LOG.debug("Deprovisioning seed VM")
         self.run_java_role_playbook(parsed_args,
-                                 "ansible/seed-vm-deprovision.yml")
+                                    "ansible/seed-vm-deprovision.yml")
 
 
 class SeedHostConfigure(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
@@ -378,7 +378,7 @@ class SeedHostConfigure(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
         # Explicitly request the dump-config tag to ensure this play runs even
         # if the user specified tags.
         hostvars = self.run_java_role_config_dump(parsed_args, hosts="seed",
-                                               tags="dump-config")
+                                                  tags="dump-config")
         if not hostvars:
             self.app.LOG.error("No hosts in the seed group")
             sys.exit(1)
@@ -419,7 +419,7 @@ class SeedHostConfigure(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
             # Specify a virtualenv in which to install python packages.
             extra_vars["virtualenv"] = lordoftheflies_target_venv
         self.run_lordoftheflies_ansible_seed(parsed_args, "bootstrap-servers",
-                                    extra_vars=extra_vars)
+                                             extra_vars=extra_vars)
 
         # Run final java_role playbooks.
         playbooks = _build_playbook_list(
@@ -504,7 +504,7 @@ class SeedContainerImageBuild(KayobeAnsibleMixin, VaultMixin, Command):
             extra_vars["container_image_sets"] = (
                 "{{ seed_container_image_sets }}")
         self.run_java_role_playbooks(parsed_args, playbooks,
-                                  extra_vars=extra_vars)
+                                     extra_vars=extra_vars)
 
 
 class SeedDeploymentImageBuild(KayobeAnsibleMixin, VaultMixin, Command):
@@ -537,15 +537,15 @@ class OvercloudInventoryDiscover(KayobeAnsibleMixin, VaultMixin, Command):
         # hosts will not be present in the following playbooks in which they
         # are used to populate other inventories.
         self.run_java_role_playbook(parsed_args,
-                                 "ansible/overcloud-inventory-discover.yml")
+                                    "ansible/overcloud-inventory-discover.yml")
         # If necessary, allocate IP addresses for the discovered hosts.
         self.run_java_role_playbook(parsed_args,
-                                 "ansible/ip-allocation.yml")
+                                    "ansible/ip-allocation.yml")
         # Now populate the Kolla Ansible and Bifrost inventories.
         self.run_java_role_playbook(parsed_args,
-                                 "ansible/lordoftheflies-bifrost-hostvars.yml")
+                                    "ansible/lordoftheflies-bifrost-hostvars.yml")
         self.run_java_role_playbook(parsed_args, "ansible/lordoftheflies-ansible.yml",
-                                 tags="config")
+                                    tags="config")
 
 
 class OvercloudIntrospectionDataSave(KayobeAnsibleMixin, VaultMixin, Command):
@@ -579,7 +579,7 @@ class OvercloudIntrospectionDataSave(KayobeAnsibleMixin, VaultMixin, Command):
             extra_vars['output_format'] = parsed_args.output_format
         playbooks = _build_playbook_list("overcloud-introspection-data-save")
         self.run_java_role_playbooks(parsed_args, playbooks,
-                                  extra_vars=extra_vars)
+                                     extra_vars=extra_vars)
 
 
 class OvercloudBIOSRAIDConfigure(KayobeAnsibleMixin, VaultMixin, Command):
@@ -670,7 +670,7 @@ class OvercloudHostConfigure(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
         # Explicitly request the dump-config tag to ensure this play runs even
         # if the user specified tags.
         hostvars = self.run_java_role_config_dump(parsed_args, hosts="overcloud",
-                                               tags="dump-config")
+                                                  tags="dump-config")
         if not hostvars:
             self.app.LOG.error("No hosts in the overcloud group")
             sys.exit(1)
@@ -712,7 +712,7 @@ class OvercloudHostConfigure(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
             # Specify a virtualenv in which to install python packages.
             extra_vars["virtualenv"] = lordoftheflies_target_venv
         self.run_lordoftheflies_ansible_overcloud(parsed_args, "bootstrap-servers",
-                                         extra_vars=extra_vars)
+                                                  extra_vars=extra_vars)
 
         # Further java_role playbooks.
         playbooks = _build_playbook_list(
@@ -778,7 +778,7 @@ class OvercloudServiceConfigurationGenerate(KayobeAnsibleMixin,
         if parsed_args.node_config_dir:
             extra_vars["node_config_directory"] = parsed_args.node_config_dir
         self.run_lordoftheflies_ansible_overcloud(parsed_args, "genconfig",
-                                         extra_vars=extra_vars)
+                                                  extra_vars=extra_vars)
 
 
 class OvercloudServiceConfigurationSave(KayobeAnsibleMixin, VaultMixin,
@@ -812,7 +812,7 @@ class OvercloudServiceConfigurationSave(KayobeAnsibleMixin, VaultMixin,
         if parsed_args.node_config_dir:
             extra_vars["node_config_directory"] = parsed_args.node_config_dir
         self.run_java_role_playbooks(parsed_args, playbooks,
-                                  extra_vars=extra_vars)
+                                     extra_vars=extra_vars)
 
 
 class OvercloudServiceDeploy(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
@@ -859,13 +859,13 @@ class OvercloudServiceDeploy(KollaAnsibleMixin, KayobeAnsibleMixin, VaultMixin,
         playbooks = _build_playbook_list("overcloud-extras")
         extra_vars = {"action": "deploy"}
         self.run_java_role_playbooks(parsed_args, playbooks,
-                                  extra_vars=extra_vars)
+                                     extra_vars=extra_vars)
 
         # Post-deployment configuration.
         # FIXME: Fudge to work around incorrect configuration path.
         extra_vars = {"node_config_directory": parsed_args.lordoftheflies_config_path}
         self.run_lordoftheflies_ansible_overcloud(parsed_args, "post-deploy",
-                                         extra_vars=extra_vars)
+                                                  extra_vars=extra_vars)
         # Create an environment file for accessing the public API as the admin
         # user.
         playbooks = _build_playbook_list("public-openrc")
@@ -916,13 +916,13 @@ class OvercloudServiceReconfigure(KollaAnsibleMixin, KayobeAnsibleMixin,
         playbooks = _build_playbook_list("overcloud-extras")
         extra_vars = {"action": "reconfigure"}
         self.run_java_role_playbooks(parsed_args, playbooks,
-                                  extra_vars=extra_vars)
+                                     extra_vars=extra_vars)
 
         # Post-deployment configuration.
         # FIXME: Fudge to work around incorrect configuration path.
         extra_vars = {"node_config_directory": parsed_args.lordoftheflies_config_path}
         self.run_lordoftheflies_ansible_overcloud(parsed_args, "post-deploy",
-                                         extra_vars=extra_vars)
+                                                  extra_vars=extra_vars)
         # Create an environment file for accessing the public API as the admin
         # user.
         playbooks = _build_playbook_list("public-openrc")
@@ -969,7 +969,7 @@ class OvercloudServiceUpgrade(KollaAnsibleMixin, KayobeAnsibleMixin,
         playbooks = _build_playbook_list("overcloud-extras")
         extra_vars = {"action": "upgrade"}
         self.run_java_role_playbooks(parsed_args, playbooks,
-                                  extra_vars=extra_vars)
+                                     extra_vars=extra_vars)
 
 
 class OvercloudServiceDestroy(KollaAnsibleMixin, KayobeAnsibleMixin,
@@ -1009,13 +1009,13 @@ class OvercloudServiceDestroy(KollaAnsibleMixin, KayobeAnsibleMixin,
         # Run lordoftheflies-ansible destroy.
         extra_args = ["--yes-i-really-really-mean-it"]
         self.run_lordoftheflies_ansible_overcloud(parsed_args, "destroy",
-                                         extra_args=extra_args)
+                                                  extra_args=extra_args)
 
         # Destroy java_role extra services.
         playbooks = _build_playbook_list("overcloud-extras")
         extra_vars = {"action": "destroy"}
         self.run_java_role_playbooks(parsed_args, playbooks,
-                                  extra_vars=extra_vars)
+                                     extra_vars=extra_vars)
 
 
 class OvercloudContainerImagePull(KayobeAnsibleMixin, KollaAnsibleMixin,
@@ -1036,7 +1036,7 @@ class OvercloudContainerImagePull(KayobeAnsibleMixin, KollaAnsibleMixin,
         playbooks = _build_playbook_list("overcloud-extras")
         extra_vars = {"action": "pull"}
         self.run_java_role_playbooks(parsed_args, playbooks,
-                                  extra_vars=extra_vars)
+                                     extra_vars=extra_vars)
 
 
 class OvercloudContainerImageBuild(KayobeAnsibleMixin, VaultMixin, Command):
@@ -1067,7 +1067,7 @@ class OvercloudContainerImageBuild(KayobeAnsibleMixin, VaultMixin, Command):
             extra_vars["container_image_sets"] = (
                 "{{ overcloud_container_image_sets }}")
         self.run_java_role_playbooks(parsed_args, playbooks,
-                                  extra_vars=extra_vars)
+                                     extra_vars=extra_vars)
 
 
 class OvercloudDeploymentImageBuild(KayobeAnsibleMixin, VaultMixin, Command):

@@ -1,7 +1,6 @@
 #!/usr/bin/python
 from setuptools import setup, find_packages
 
-
 try:
     import multiprocessing  # noqa
 except ImportError:

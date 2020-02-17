@@ -14,12 +14,11 @@
 
 import logging
 import os
-import six
 import subprocess
 import sys
 
+import six
 import yaml
-
 
 LOG = logging.getLogger(__name__)
 

@@ -18,8 +18,8 @@ import cliff.app
 import cliff.commandmanager
 import mock
 
-from java_role.cli import commands
 from java_role import utils
+from java_role.cli import commands
 
 
 class TestApp(cliff.app.App):
@@ -221,7 +221,7 @@ class TestCase(unittest.TestCase):
     @mock.patch.object(commands.KollaAnsibleMixin,
                        "run_lordoftheflies_ansible_seed")
     def test_seed_host_configure_java_role_venv(self, mock_lordoftheflies_run, mock_run,
-                                             mock_dump):
+                                                mock_dump):
         command = commands.SeedHostConfigure(TestApp(), [])
         parser = command.get_parser("test")
         parsed_args = parser.parse_args([])
@@ -254,7 +254,7 @@ class TestCase(unittest.TestCase):
     @mock.patch.object(commands.KollaAnsibleMixin,
                        "run_lordoftheflies_ansible_seed")
     def test_seed_host_configure_lordoftheflies_venv(self, mock_lordoftheflies_run, mock_run,
-                                            mock_dump):
+                                                     mock_dump):
         command = commands.SeedHostConfigure(TestApp(), [])
         parser = command.get_parser("test")
         parsed_args = parser.parse_args([])
@@ -504,7 +504,7 @@ class TestCase(unittest.TestCase):
     @mock.patch.object(commands.KollaAnsibleMixin,
                        "run_lordoftheflies_ansible_overcloud")
     def test_overcloud_host_configure_java_role_venv(self, mock_lordoftheflies_run,
-                                                  mock_run, mock_dump):
+                                                     mock_run, mock_dump):
         command = commands.OvercloudHostConfigure(TestApp(), [])
         parser = command.get_parser("test")
         parsed_args = parser.parse_args([])
@@ -537,7 +537,7 @@ class TestCase(unittest.TestCase):
     @mock.patch.object(commands.KollaAnsibleMixin,
                        "run_lordoftheflies_ansible_overcloud")
     def test_overcloud_host_configure_lordoftheflies_venv(self, mock_lordoftheflies_run,
-                                                 mock_run, mock_dump):
+                                                          mock_run, mock_dump):
         command = commands.OvercloudHostConfigure(TestApp(), [])
         parser = command.get_parser("test")
         parsed_args = parser.parse_args([])

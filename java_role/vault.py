@@ -17,7 +17,6 @@ import subprocess
 
 from java_role import utils
 
-
 VAULT_PASSWORD_ENV = "JAVA_ROLE_VAULT_PASSWORD"
 
 
