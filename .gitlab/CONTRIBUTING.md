@@ -2,20 +2,22 @@
 
 First off, thanks for taking the time to contribute!
 
-The following is a set of guidelines for contributing to this repository. These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
+The following is a set of guidelines for contributing to this repository. These are mostly guidelines, not 
+rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
 
 ### I don't care about this whole thing, I just have a simple question!
 
 If you need an answer, you can either:
   1. Open an issue and assign to it the `question` label, or
-  2. If you need a faster response, either join [the Slack channel](https://cherubits.slack.com/) and get an invite then ask your question there
+  2. If you need a faster response, either join [the Slack channel](https://cherubits.slack.com/) and get an 
+  invite then ask your question there
 
 ### How can I contribute?
 
 #### Reporting bugs
 
 Before reporting a bug, please make sure it hasn't already been reported by visiting the
-[issue section](https://gitlab.cherubits.hu/%project_path%/issues).
+[issue section](https://github.com/lordoftheflies/java_role/issues).
 
 If the bug you found hasn't been reported yet, create a new issue and assign it the proper label(s).
 Besides this, there isn't any specific guideline on how the bugs should be reported, Just be sure
@@ -35,7 +37,8 @@ enhancement just for yourself.
 
 #### Commit messages
 
-This project follows the [Udacity Git Commit Message Style Guide](https://udacity.github.io/git-styleguide/) and [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/),
+This project follows the [Udacity Git Commit Message Style Guide](https://udacity.github.io/git-styleguide/) 
+and [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/),
 so make sure to read and use it properly. Besides that, also make sure to include `[ci skip]` or `[skip ci]`
 in the commit title when only changing documentation.
 
@@ -60,6 +63,7 @@ While reviewing the code, ask yourself the following basic questions:
 * Is the same code duplicated more than twice?
 * Can I unit test / debug the code easy to find the root cause?
 * Is this function or class too big? If yes, is the function or class having too many responsibilities?
-* If you feel that the answer is not satisfactory to any of the above questions, then you can suggest/recommend code changes.
+* If you feel that the answer is not satisfactory to any of the above questions, then you can suggest/recommend 
+code changes.
 
-More information: [Detailed Code Review Checklist]()
+More information: [Detailed Code Review Checklist](../detailed-code-review-checklist.md)
