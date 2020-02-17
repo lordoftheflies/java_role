@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 #  The MIT License (MIT)
 #
 #  Copyright (c) 2019 László Hegedűs
@@ -21,17 +19,20 @@
 #  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 #  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from setuptools import setup, find_packages
+#  The MIT License (MIT)
+#
+#
+#  Permission is hereby granted, free of charge, to any person obtaining a copy of
+#  this software and associated documentation files (the "Software"), to deal in
+#  the Software without restriction, including without limitation the rights to
+#  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+#  the Software, and to permit persons to whom the Software is furnished to do so,
+#  subject to the following conditions:
+#
+#
+class JavaRoleException(Exception):
+    """Base class for kayobe exceptions."""
 
-try:
-    import multiprocessing  # noqa
-except ImportError:
-    pass
 
-setup(
-    setup_requires=['pbr'],
-    pbr=True,
-    name="java_role",
-    version="0.1",
-    packages=find_packages(),
-)
+class Error(JavaRoleException):
+    """Generic user error."""
