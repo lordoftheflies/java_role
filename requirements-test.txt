@@ -11,3 +11,6 @@ stestr # Apache-2.0
 yamllint # GPLv3
 pycodestyle
 sphinx>=2.4.1
+conventional-commit>=0.3.2
+pre-commit>=2.0.1
+poetry>=0.7.0
