@@ -40,6 +40,7 @@ import pytest
 from java_role import utils
 from java_role import vault
 
+
 @pytest.mark.skip(reason="legacy code")
 class TestCase(unittest.TestCase):
 

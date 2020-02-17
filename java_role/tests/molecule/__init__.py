@@ -21,8 +21,8 @@
 
 
 import six
-from six.moves import configparser
 from six import StringIO
+from six.moves import configparser
 
 
 def test_file(host, path, owner='root', group='root'):

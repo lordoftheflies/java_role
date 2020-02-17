@@ -43,6 +43,7 @@ def getpass():
     """Return current password"""
     return ""
 
+
 def _get_default_vault_password_file():
     """Return the default value for the vault password file argument.
 

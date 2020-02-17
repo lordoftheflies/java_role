@@ -50,6 +50,7 @@ class TestApp(cliff.app.App):
             version='0.1',
             command_manager=cliff.commandmanager.CommandManager('java_role.cli'))
 
+
 @pytest.mark.skip(reason="legacy code")
 class TestCase(unittest.TestCase):
 
