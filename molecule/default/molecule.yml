@@ -9,20 +9,23 @@ lint:
     config-file: .ansible-lint
 platforms:
   - name: ubuntu1804
+    hostname: 'java.cherubits.hu'
     image: "williamyeh/ansible:ubuntu18.04"
     # image: "quay.io/ansible/molecule"
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    #   dockerfile: Dockerfile.j2
+    pull: true
+    registry:
+      url: registry.hub.docker.com
+      credentials:
+        username: lordoftheflies
+        password: Armageddon0
+        email: laszlo.hegedus@cherubits.hu
+        user: root
     privileged: true
     pre_build_image: true
-#  - name: centos7
-#    image: "williamyeh/ansible:centos7"
-#    command: ${MOLECULE_DOCKER_COMMAND:-""}
-#    volumes:
-#      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-#    privileged: true
-#    pre_build_image: true
 provisioner:
   name: ansible
   lint:

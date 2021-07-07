@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 #  The MIT License (MIT)
 #
 #  Copyright (c) 2019 László Hegedűs
@@ -21,17 +19,10 @@
 #  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 #  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from setuptools import setup, find_packages
 
-try:
-    import multiprocessing  # noqa
-except ImportError:
-    pass
+class JavaRoleException(Exception):
+    """Base class for java_role exceptions."""
 
-setup(
-    setup_requires=['pbr'],
-    pbr=True,
-    name="java_role",
-    version="0.1",
-    packages=find_packages(),
-)
+
+class Error(JavaRoleException):
+    """Generic user error."""

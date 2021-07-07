@@ -23,6 +23,7 @@ addons:
       - python3-apt
       - python3-venv
       - python3-virtualenv
+      - libjs-mathjax
       # - realpath
 
 
@@ -30,11 +31,11 @@ addons:
 env:
   matrix:
     # Run python style checks.
-    - TOX_ENV=pep8
+    - TOX_ENV=pycodestyle
     # Build documentation.
     - TOX_ENV=docs
     # Run python2.7 unit tests.
-    - TOX_ENV=py37
+    - TOX_ENV=clean,cover
     # Run ansible syntax checks.
     - TOX_ENV=ansible-syntax
     # Run ansible tests.
@@ -50,7 +51,7 @@ install:
   - .env/bin/pip install -U pip
   - .env/bin/pip install tox-travis
   # Install test dependencies.
-  - pip install molecule molecule[lint] molecule[docker] docker docker-compose tox pytest
+#  - pip install molecule molecule[lint] molecule[docker] docker docker-compose tox pytest
 
 before_script:
   # Use actual Ansible Galaxy role name for the project directory.

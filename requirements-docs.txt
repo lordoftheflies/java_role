@@ -1,0 +1,18 @@
+doc8 # Apache-2.0
+sphinx>=2.4.1
+sphinxcontrib-plantuml>=0.18
+sphinxcontrib-googleanalytics
+# sphinxcontrib-youtube
+sphinxcontrib-email
+sphinxcontrib-inlinesyntaxhighlight
+sphinxcontrib-newsfeed
+sphinxcontrib-googlechart
+sphinxcontrib-imagesvg
+sphinxcontrib-inlinesyntaxhighlight
+sphinxcontrib-googlemaps
+sphinxcontrib-findanything
+sphinxcontrib-argdoc
+sphinxcontrib-email
+sphinxcontrib-examplecode
+sphinxcontrib-exceltable
+sphinxcontrib-mockautodoc

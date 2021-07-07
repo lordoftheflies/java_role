@@ -1,3 +1,24 @@
+#  The MIT License (MIT)
+#
+#  Copyright (c) 2019 László Hegedűs
+#
+#  Permission is hereby granted, free of charge, to any person obtaining a copy of
+#  this software and associated documentation files (the "Software"), to deal in
+#  the Software without restriction, including without limitation the rights to
+#  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+#  the Software, and to permit persons to whom the Software is furnished to do so,
+#  subject to the following conditions:
+#
+#  The above copyright notice and this permission notice shall be included in all
+#  copies or substantial portions of the Software.
+#
+#  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+#  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+#  FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+#  COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+#  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+#  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 # Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
@@ -17,12 +38,12 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'java_role'
-copyright = '2020, lordoftheflies'
-author = 'lordoftheflies'
+project = "java_role"
+copyright = "2020, László Hegedűs"
+author = "lordoftheflies"
 
 # The full version, including alpha/beta/rc tags
-release = '2.0.2'
+release = "2.0.2"
 
 # -- General configuration ---------------------------------------------------
 
@@ -30,10 +51,46 @@ release = '2.0.2'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx.ext.autodoc.typehints",
+    "sphinx.ext.autosectionlabel",
+    "sphinx.ext.autosummary",
+    "sphinx.ext.coverage",
+    "sphinx.ext.doctest",
+    "sphinx.ext.duration",
+    "sphinx.ext.githubpages",
+    "sphinx.ext.graphviz",
+    "sphinx.ext.ifconfig",
+    "sphinx.ext.imgconverter",
+    "sphinx.ext.inheritance_diagram",
+    "sphinx.ext.intersphinx",
+    # 'sphinx.ext.linkcode',
+    # 'sphinx.ext.imgmath',
+    "sphinx.ext.mathjax",
+    # 'sphinx.ext.jsmath',
+    "sphinx.ext.napoleon",
+    "sphinx.ext.todo",
+    "sphinx.ext.viewcode",
+    "sphinxcontrib.plantuml",
+    # 'sphinxcontrib.youtube',
+    # 'sphinxcontrib-argdoc',
+    # 'sphinxcontrib.email',
+    # 'sphinxcontrib.examplecode',
+    # 'sphinxcontrib.exceltable',
+    # 'sphinxfeed',
+    # 'sphinxcontrib.googleanalytics',
+    # 'sphinxcontrib.googlechart',
+    # 'sphinxcontrib.googlechart.graphviz',
+    # 'sphinxcontrib.googlemaps',
+    # 'sphinxcontrib.findanything',
+    # 'sphinxcontrib.imagesvg',
+    # 'sphinxcontrib.inlinesyntaxhighlight',
+    # 'sphinxcontrib.mockautodoc',
+    # 'sphinxcontrib.newsfeed'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -45,9 +102,33 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = "alabaster"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path = ["_static"]
+
+math_renderer_name = "mathjax"
+
+imgmath_image_format = "svg"
+
+autodoc_typehints = "signature"
+autoclass_content = "both"
+
+doctest_global_setup = """
+try:
+    import pandas as pd
+except ImportError:
+    pd = None
+"""
+
+mathjax_path = (
+    "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+)
+mathjax_config = {"extensions": ["tex2jax.js"], "jax": ["input/TeX", "output/HTML-CSS"]}
+plantuml = "plantuml"
+plantuml_output_format = "svg"
+googleanalytics_id = "UA-123-123-123"
+googleanalytics_enabled = False
+graphviz_dot = "/usr/bin/dot"
